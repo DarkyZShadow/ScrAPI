@@ -15,7 +15,7 @@ $(function ()
 			//
 			var result = {
 				datas: {
-					SIREN: 123456789,
+					//SIREN: 123456789,
 					SIRET: "1234567980123",
 					NIC: 123
 				},
@@ -24,7 +24,7 @@ $(function ()
 				]
 			};
 			
-			
+			$('#table_infos_siren').html(result.datas.SIREN != undefined ? result.datas.SIREN : "<img class='btn-warning' style='padding: 10px;'>");
 			
 			
 			var socket = io();
