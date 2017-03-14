@@ -14,6 +14,6 @@ io.on('connection', function(socket){
 });
 
 app.use ('/', express.static(__dirname));
-server.listen(8080, function(){
+server.listen(80, function(){
     console.log('listening on *:80');
 });

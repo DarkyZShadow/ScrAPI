@@ -1,4 +1,4 @@
-$(function () {
+$(function send_request() {
     $('a[href="#search"]').on('click', function (event) {
         event.preventDefault();
         $('#search').addClass('open');
@@ -15,12 +15,23 @@ $(function () {
             var object = {
                 "value": input
             };
+	    try {
             $.ajax({
                 type: "POST",
                 data: JSON.stringify(object),
-                url: "172.16.1.198/api/POST",
+                url: "172.16.1.198:3030/company",
                 contentType: "application/json"
             })
+	    }
+	    catch(err) {
+		console.log(err.message);
+	    }
+	    $.ajax({
+		type: "GET",
+		url: "172.16.1.198:3030/company"
+	    }).done(function(data) {
+		console.log(data);
+	    })
             $('#search').removeClass('open');
         }
         event.preventDefault();
@@ -30,4 +41,4 @@ $(function () {
 
 $(document).ready(function(){
     $('#table_id').DataTable();
-});
+})();
