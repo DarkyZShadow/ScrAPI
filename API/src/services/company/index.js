@@ -22,7 +22,7 @@ var Model = mongoose.model('datas', schema);
 module.exports = {
     POST: function (req, res)
 				{
-					Model.find({ nomen_long: req.body.name }, function(err,models) {
+					Model.find({ nomen_long: new RegExp("^.*" + req.body.name + ".*$", "i") }, function(err,models) {
          		if (err) {
             	res.render('error', {
                 status: 500
