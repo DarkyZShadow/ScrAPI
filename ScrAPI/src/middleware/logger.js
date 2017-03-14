@@ -1,24 +1,19 @@
-'use strict';
+var fs = require('fs');
+var config = require('../../config/default.js');
 
-const winston = require('winston');
+module.exports = {
+    log_route: function (req, res, next)
+    {
+        var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        var ip = req.headers['x-forwarded-for'] ||
+            req.connection.remoteAddress;
+        var logs = `\n[${date}] : ${ip.slice(7)}\n`
+            + `Method : ${req.method}\n`
+            + `Path : ${req.url}\n`
+            + `Body : ${JSON.stringify(req.body)}`;
 
-module.exports = function(app) {
-  // Add a logger to our app object for convenience
-  app.logger = winston;
-
-  return function(error, req, res, next) {
-    if (error) {
-      const message = `${error.code ? `(${error.code}) ` : '' }Route: ${req.url} - ${error.message}`;
-      
-      if (error.code === 404) {
-        winston.info(message);
-      }
-      else {
-        winston.error(message);
-        winston.info(error.stack);
-      }
-    }
-
-    next(error);
-  };
-};
+        console.log(logs);
+        fs.appendFileSync(config.log_file, logs + '\n');
+        next();
+		}
+}
