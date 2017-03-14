@@ -1,4 +1,11 @@
+/*
+**
+**  Project : ScrAPI
+**  File : This is the router
+**
+*/
+
 const PATH = "../services/";
 const FILE = "/index.js";
 
-exports.list = require(PATH + "list" + FILE);
+exports.company = require(PATH + "company" + FILE);

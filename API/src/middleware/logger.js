@@ -1,5 +1,12 @@
-var fs = require('fs');
-var config = require('../../config/default.js');
+/*
+**
+**  Project : ScrAPI
+**  File : This is the logger middleware
+**
+*/
+
+let fs = require('fs');
+let config = require('../../config/default.js');
 
 module.exports = {
     log_route: function (req, res, next)
