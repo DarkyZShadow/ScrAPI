@@ -2,6 +2,7 @@
 **
 **	Project : ScrAPI
 **	File : This is the list route index
+**	Method : POST
 **
 */
 
@@ -12,16 +13,16 @@ let	db = require('../../../config/db.js');
 //db.mongoose = mongoose
 
 var schema = new db.mongoose.Schema({
-	name: String
+	SIREN: Number,
+	NIC: Number
 });
-schema.set('collection', 'test');
-var Model = mongoose.model('Test', schema);
+schema.set('collection', 'raw_datas');
+var Model = mongoose.model('datas', schema);
 
 module.exports = {
-    GET: function (req, res)
+    POST: function (req, res)
 				{
-					Model.find({},function(err,models) {
-        		console.log(models);
+					Model.find({ nomen_long: req.body.name }, function(err,models) {
          		if (err) {
             	res.render('error', {
                 status: 500
@@ -30,12 +31,6 @@ module.exports = {
             	res.jsonp(models);
         		}
     			});
-
-					/*Model.findOne({ 'name': 'test' }, 'name', function (err, person) {
-  					if (err) return handleError(err);
-  					console.log(person);
-					})
-					res.send("Hello World");*/
 				}
 }
 
