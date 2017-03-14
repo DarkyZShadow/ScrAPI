@@ -17,11 +17,12 @@ $(function ()
 			var result = {
 				datas: {
 					SIREN: 123456789,
-					SIRET: "1234567980123",
-					NIC: 123
+					SIRET: '1234567980123',
+					NIC: 123,
+					address: '12 rue machin'
 				},
 				missing: [
-					'name', 'emails', 'address'
+					'name', 'members'
 				]
 			};
 			
@@ -30,7 +31,8 @@ $(function ()
 			$('#table_infos_nic').html(result.datas.NIC != undefined ? result.datas.NIC : wait_icon);
 			$('#table_infos_siren').html(result.datas.SIREN != undefined ? result.datas.SIREN : wait_icon);
 			$('#table_infos_name').html(result.datas.name != undefined ? result.datas.name : wait_icon);
-			
+			$('#table_infos_address').html(result.datas.address != undefined ? result.datas.address : wait_icon);
+			$('#table_members tbody').html("");
 			
 			var socket = io();
 			socket.emit('', input);
