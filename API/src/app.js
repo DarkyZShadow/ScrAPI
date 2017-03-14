@@ -1,3 +1,10 @@
+/*
+**
+**	Project : ScrAPI
+**	File : This is the app's entry point
+**
+*/
+
 let express = require('express');
 let logger = require('./middleware/logger.js');
 let config = require('../config/default.js');
@@ -7,7 +14,7 @@ let router = express.Router();
 let app = express();
 
 router.use(logger.log_route)
-  .get('/list', route_handler.list.GET);
+  .get('/company', route_handler.company.GET);
 
 app.use(router);
 app.listen(config.port);
