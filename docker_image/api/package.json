@@ -1,0 +1,14 @@
+{
+  "name": "ScrAPI",
+  "version": "1.0.0",
+  "description": "ScrAPI is a web parser API to get informations on companies",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
