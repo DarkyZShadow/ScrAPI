@@ -1,0 +1,30 @@
+{
+  "name": "scrapi_bot",
+  "version": "0.0.1",
+  "description": "A basic scraper for compagnies",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Steve-Nzr/ScrAPI.git"
+  },
+  "keywords": [
+    "scraper",
+    "api",
+    "compagnies"
+  ],
+  "author": "soulie_s, lawyim_n, theval_s, gaudea_h",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Steve-Nzr/ScrAPI/issues"
+  },
+  "homepage": "https://github.com/Steve-Nzr/ScrAPI#readme",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {}
+}
