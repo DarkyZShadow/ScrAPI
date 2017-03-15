@@ -20,7 +20,8 @@ app.use(function(req, res, next) {
 });
 
 router.use(logger.log_route)
-  .post('/company', route_handler.company.POST);
+  .post('/company', route_handler.company.comp_get)
+	.put('/company', route_handler.company.comp_add_or_up)
 
 app.use(bodyParser.json());
 app.use(router);

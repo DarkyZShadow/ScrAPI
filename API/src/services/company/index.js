@@ -14,7 +14,9 @@ let	db = require('../../../config/db.js');
 
 var schema = new db.mongoose.Schema({
 	SIREN: Number,
-	NIC: Number
+	NIC: Number,
+	nomen_long: String,
+	employees: Array
 });
 schema.set('collection', 'raw_datas');
 var Model = mongoose.model('datas', schema);
@@ -23,18 +25,42 @@ let every_properties = {
 	SIREN: "SIREN",
 	SIRET: "SIRET",
 	NIC: "NIC",
-	name: "nomen_long",
-	address: "address",
-	members: "members",
-	type: "libnj",
-	desc: "libape",
-	size: "libtef",
-	category: "categorie",
-	date: "dcr"
+	Nom: "nomen_long",
+	Adresse: "address",
+	Employes: "members",
+	Type: "libnj",
+	Description: "libape",
+	Taille: "libtef",
+	Categorie: "categorie",
+	Creation: "dcr"
+};
+
+var newobj = {
+	SIREN:31351153,
+	NIC:02145,
+	nomen_long:"Atos",
+	employees: [
+		{
+			post:"PDG",
+			fullname:"Maria DB",
+			phone:"0606060606",
+			address:"99 rue de l'SQL, 78500 Paris",
+			linkedin:"http://linkedin.com/",
+			mail:"test@test.sql"
+		},
+		{
+			post:"DRH",
+			fullname:"Steve theval",
+			phone:"0606060606",
+			address:"50 rue de l'Arbre, 78500 Paris",
+			linkedin:"http://linkedin.com/",
+			mail:"test@test.fr"
+		}
+	]
 };
 
 module.exports = {
-    POST: function (req, res)
+    comp_get: function (req, res)
 				{
 					if (!req.body || !req.body.name) {
 						res.sendStatus(500);
@@ -52,7 +78,23 @@ module.exports = {
 							}
 							let object = JSON.parse(JSON.stringify(models[0]));
 							var send = {
-								data: {},
+								data: {
+									employees: [
+										{
+											fullname: "Jean Rinro",
+											post: "PDG",
+											phone: "0606060606",
+											address: "547 rue de l'Arbre, 75001 Paris",
+											linkedin: "http://linkedin.com/"
+										},
+										{
+											fullname: "Marie Dupont",
+											post: "DRH",
+											phone: "0606060606",
+											address: "59 rue de l'Arbre, 75001 Paris"
+										}
+									]
+								},
 								missing: []
 							};
 							for(let i = 0; i < Object.keys(every_properties).length; i++) {
@@ -67,6 +109,13 @@ module.exports = {
             	res.jsonp(send);
         		}
     			});
+				},
+		comp_add_or_up: function (req, res)
+				{
+					if (req.body) {
+					r	
+					}
+					res.sendStatus(500);
 				}
 }
 
