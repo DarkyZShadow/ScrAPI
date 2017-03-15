@@ -28,21 +28,30 @@ $('form').submit(function (event) {
 		
 		$('#search').removeClass('open');
 		event.preventDefault();
-		
-		$('#table_infos_siren').html(result.data.SIREN != undefined ? result.data.SIREN : wait_icon);
-		$('#table_infos_siret').html(result.data.SIRET != undefined ? result.data.SIRET : wait_icon);
-		$('#table_infos_nic').html(result.data.NIC != undefined ? result.data.NIC : wait_icon);
-		$('#table_infos_siren').html(result.data.SIREN != undefined ? result.data.SIREN : wait_icon);
-		$('#table_infos_name').html(result.data.name != undefined ? result.data.name : wait_icon);
-		$('#table_infos_address').html(result.data.address != undefined ? result.data.address : wait_icon);
-		$('#table_infos_type').html(result.data.type != undefined ? result.data.type : wait_icon);
-		$('#table_infos_desc').html(result.data.desc != undefined ? result.data.desc : wait_icon);
-		$('#table_infos_size').html(result.data.size != undefined ? result.data.size : wait_icon);
-		$('#table_infos_category').html(result.data.category != undefined ? result.data.category : wait_icon);
-		$('#table_infos_date').html(result.data.date != undefined ? result.data.date : wait_icon);
-		
+
+		var table = document.getElementById('table_infos');
+		table.innerHTML = "";
+		for (var i = 0; i < Object.keys(result.data).length; i++) {
+		    var tr = document.createElement("tr");
+		    var th = document.createElement("th");
+		    var td = document.createElement("td");
+		    th.innerHTML = Object.keys(result.data)[i];
+		    td.innerHTML = result.data[Object.keys(result.data)[i]];
+		    tr.appendChild(th);
+		    tr.appendChild(td);
+		    table.appendChild(tr);
+		}
+		for (var i = 0; i < result.missing.length; i++) {
+		    var tr = document.createElement("tr");
+		    var th = document.createElement("th");
+		    var td = document.createElement("td");
+		    th.innerHTML = result.missing[i];
+		    td.innerHTML = wait_icon;
+		    tr.appendChild(th);
+		    tr.appendChild(td);
+		    table.appendChild(tr);
+		}
 		$('#table_members').DataTable().clear().draw();
-		
 	    });
 	    
 	    var socket = io();
