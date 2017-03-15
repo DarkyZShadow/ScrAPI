@@ -1,6 +1,6 @@
 body {
-    background-color: #ededed;
-    padding: 40px 0px;   
+    background: url("../background.jpg");
+    background-size: cover;
 }
 
 #search {
@@ -109,12 +109,14 @@ body {
 
 .navbar-default {
     color: 33a5ff;
-    background-color: #337ab7;
+    background-color: rgba(51, 122, 183, 0.6);
     border-color: #337ab7;
 }
 
 .navbar-default .navbar-brand {
     color: #e1e5e8;
+    min-height: 70px;
+    line-height: 35px;
 }
 
 .navbar-default .navbar-brand:hover {
@@ -123,8 +125,15 @@ body {
 
 .navbar-default .navbar-nav > li > a {
     color: #e1e5e8;
+    line-height: 35px;
 }
 
 .navbar-default .navbar-nav > li > a:hover {
     color: #d2cec7;
+}
+
+.container2 {
+    width: 100%;
+    margin-top: 0%;
+    height: 10%;
 }
