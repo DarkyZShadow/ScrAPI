@@ -26,7 +26,7 @@ app.get('/',function(req, res){
 });
 app.use('/', express.static(__dirname + '/static'));
 
-server.listen(8080, function(){
+server.listen(80, function(){
     console.log('listening on *:80');
 });
 

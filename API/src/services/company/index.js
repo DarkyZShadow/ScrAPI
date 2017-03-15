@@ -36,12 +36,20 @@ let every_properties = {
 module.exports = {
     POST: function (req, res)
 				{
+					if (!req.body || !req.body.name) {
+						res.sendStatus(500);
+						return;
+					}
 					Model.find({ nomen_long: new RegExp("^.*" + req.body.name + ".*$", "i") }, function(err,models) {
          		if (err) {
             	res.render('error', {
                 status: 500
             	});
         		} else {
+							if (!models[0]) {
+								res.sendStatus(500);
+								return;
+							}
 							let object = JSON.parse(JSON.stringify(models[0]));
 							var send = {
 								data: {},
