@@ -19,10 +19,24 @@ $(function ()
 					SIREN: 123456789,
 					SIRET: '1234567980123',
 					NIC: 123,
-					address: '12 rue machin'
+					address: '12 rue machin',
+					members: [
+						{
+							name: 'Jean Michel',
+							fonction: 'Chef executant',
+							phone: null,
+							mail: 'jean.michou@entreprise.net'
+						},
+						{
+							name: 'Jean Michel',
+							fonction: 'Chef executant',
+							phone: null,
+							mail: 'jean.michou@entreprise.net'
+						}
+					]
 				},
 				missing: [
-					'name', 'members'
+					'name'
 				]
 			};
 			
@@ -32,7 +46,7 @@ $(function ()
 			$('#table_infos_siren').html(result.datas.SIREN != undefined ? result.datas.SIREN : wait_icon);
 			$('#table_infos_name').html(result.datas.name != undefined ? result.datas.name : wait_icon);
 			$('#table_infos_address').html(result.datas.address != undefined ? result.datas.address : wait_icon);
-			$('#table_members tbody').html("");
+			$('#table_members').DataTable().clear().draw();
 			
 			var socket = io();
 			socket.emit('', input);
