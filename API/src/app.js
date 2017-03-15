@@ -13,6 +13,12 @@ let bodyParser = require('body-parser');
 let router = express.Router();
 let app = express();
 
+app.use(function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Content-Type, cache-control, Authorization, X-Requested-With");
+	next();
+});
+
 router.use(logger.log_route)
   .post('/company', route_handler.company.POST);
 
