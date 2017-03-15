@@ -25,7 +25,6 @@ $('form').submit(function (event) {
 	    
 	    $.ajax(settings).done(function (result) {
 		console.log(result);
-		
 		$('#search').removeClass('open');
 		event.preventDefault();
 
@@ -51,7 +50,22 @@ $('form').submit(function (event) {
 		    tr.appendChild(td);
 		    table.appendChild(tr);
 		}
-		$('#table_members').DataTable().clear().draw();
+
+		var dt = $('#table_members').DataTable();
+		for (var i = 0; i < Object.keys(result.data.employees).length; i++) {
+		    var employee = result.data.employees[i];
+		    console.log(employee.mail);
+		    dt.row.add([
+			(employee.post ? employee.post : '<i class="fa fa-times" aria-hidden="true"></i>'),
+			(employee.fullname ? employee.fullname : '<i class="fa fa-times" aria-hidden="true"></i>'),
+			(employee.phone ? employee.phone : '<i class="fa fa-times" aria-hidden="true"></i>'),
+			(employee.address ? employee.address : '<i class="fa fa-times" aria-hidden="true"></i>'),
+			(employee.linkedin ? employee.linkedin : '<i class="fa fa-times" aria-hidden="true"></i>'),
+			(employee.mail ? employee.mail : '<i class="fa fa-times" aria-hidden="true"></i>')
+		    ]).draw();
+		}
+
+		dt.clear().draw();
 	    });
 	    
 	    var socket = io();
@@ -73,10 +87,6 @@ $('#search, #search button.close').on('click keyup', function (event) {
     if (event.target == this || event.target.className == 'close' || event.keyCode == 27) {
         $(this).removeClass('open');
     }
-});
-
-$(document).ready(function(){
-    $('#table_members').DataTable();
 });
 
 function search()
