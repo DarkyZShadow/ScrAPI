@@ -29,14 +29,12 @@ $('form').submit(function (event) {
 		var table = document.getElementById('table_infos');
 		table.innerHTML = "";
 		for (var i = 0; i < Object.keys(result.data).length; i++) {
-				var key = Object.keys(result.data)[i];
-				if (result.data[key] instanceof Object || result.data[key] instanceof Array) continue;
+		    if (result.data[Object.keys(result.data)[i]] instanceof String === false) continue;
 		    var tr = document.createElement("tr");
 		    var th = document.createElement("th");
 		    var td = document.createElement("td");
-
-		    th.innerHTML = key;
-		    td.innerHTML = result.data[key];
+		    th.innerHTML = Object.keys(result.data)[i];
+		    td.innerHTML = result.data[Object.keys(result.data)[i]];
 		    tr.appendChild(th);
 		    tr.appendChild(td);
 		    table.appendChild(tr);
@@ -45,7 +43,6 @@ $('form').submit(function (event) {
 		    var tr = document.createElement("tr");
 		    var th = document.createElement("th");
 		    var td = document.createElement("td");
-
 		    th.innerHTML = result.missing[i];
 		    td.innerHTML = wait_icon;
 		    tr.appendChild(th);
@@ -56,18 +53,16 @@ $('form').submit(function (event) {
 		var dt = $('#table_members').DataTable();
 		var obj = Object.keys(result.data.employees);
 		dt.clear().draw();
-		for (var i in obj)
-		{
+		for (var i in obj) {
 		    var employee = result.data.employees[i];
 		    var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
-		    
-				dt.row.add([
-					(employee.post ? employee.post : icon),
-					(employee.fullname ? employee.fullname : icon),
-					(employee.phone ? employee.phone : icon),
-					(employee.address ? employee.address : icon),
-					(employee.linkedin ? employee.linkedin : icon),
-					(employee.mail ? employee.mail : icon)
+		    dt.row.add([
+			(employee.post ? employee.post : icon),
+			(employee.fullname ? employee.fullname : icon),
+			(employee.phone ? employee.phone : icon),
+			(employee.address ? employee.address : icon),
+			(employee.linkedin ? employee.linkedin : icon),
+			(employee.mail ? employee.mail : icon)
 		    ]).draw();
 		}
 
