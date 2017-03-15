@@ -1,3 +1,5 @@
+document.getElementById('table_members').style.display = "none";
+
 $('form').submit(function (event) {
     var wait_icon = "<i class='fa fa-cog fa-spin fa-2x fa-fw margin-bottom'></i>";
     var input = $("#search_input").val().trim();
@@ -29,8 +31,8 @@ $('form').submit(function (event) {
 		var table = document.getElementById('table_infos');
 		table.innerHTML = "";
 		for (var i = 0; i < Object.keys(result.data).length; i++) {
-				var key = Object.keys(result.data)[i];
-				if (result.data[key] instanceof Object || result.data[key] instanceof Array) continue;
+		    var key = Object.keys(result.data)[i];
+		    if (result.data[key] instanceof Object || result.data[key] instanceof Array) continue;
 		    var tr = document.createElement("tr");
 		    var th = document.createElement("th");
 		    var td = document.createElement("td");
@@ -52,7 +54,8 @@ $('form').submit(function (event) {
 		    tr.appendChild(td);
 		    table.appendChild(tr);
 		}
-	
+
+		document.getElementById('table_members').style.display = "inline-table";
 		var dt = $('#table_members').DataTable();
 		var obj = Object.keys(result.data.employees);
 		dt.clear().draw();
