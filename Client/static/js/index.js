@@ -1,7 +1,7 @@
 document.getElementById('table_members').style.display = "none";
 
 $('form').submit(function (event) {
-    var wait_icon = "<i class='fa fa-cog fa-spin fa-2x fa-fw margin-bottom'></i>";
+    var wait_icon = '<i class="fa fa-spinner" aria-hidden="true"></i>';
     var input = $("#search_input").val().trim();
     
     if (input.length > 0)
@@ -80,7 +80,6 @@ $('form').submit(function (event) {
 	    socket.emit('', input);
 	}
     
-    event.preventDefault();
     return false;
     
 });
