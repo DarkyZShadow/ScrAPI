@@ -75,7 +75,6 @@ body {
 }
 
 .table_company {
-    width: 40%;
     margin: auto;
 }
 
@@ -84,20 +83,21 @@ body {
 }
 
 #table_infos {
-    border: 2px solid #337ab7;
-    margin-left: -62%;
+    min-width: 40%;
+    border: 3px solid #337ab7;
+    margin-left: 5%;
 }
 
 #table_infos td {
     border-left: 2px solid #337ab7;
     border-top: 1px solid #337ab7;
     border-bottom: 1px solid #337ab7;
-    background-color: #fcf9fa;
-    padding: 2px;
+    background-color: #fcfcfc;
+    padding: 3px;
 }
 
 #table_infos td:hover {
-    background-color: #f2eff0;
+    background-color: #f7f7f7;
 }
 
 #table_infos th {
