@@ -1,6 +1,5 @@
 body {
     background: url("../background.jpg");
-    background-size: cover;
 }
 
 #search {
@@ -62,11 +61,11 @@ body {
     top: 15px;
     right: 15px;
     color: #fff;
-	background-color: #428bca;
-	border-color: #357ebd;
-	opacity: 1;
-	padding: 10px 17px;
-	font-size: 27px;
+    background-color: #428bca;
+    border-color: #357ebd;
+    opacity: 1;
+    padding: 10px 17px;
+    font-size: 27px;
 }
 
 .table_data {
@@ -82,29 +81,29 @@ body {
     border: 2px solid #337ab7;
 }
 
-#table_infos {
-    min-width: 40%;
-    border: 3px solid #337ab7;
-    margin-left: 5%;
-}
-
 #table_infos td {
-    border-left: 2px solid #337ab7;
-    border-top: 1px solid #337ab7;
-    border-bottom: 1px solid #337ab7;
-    background-color: #fcfcfc;
-    padding: 3px;
-}
-
-#table_infos td:hover {
-    background-color: #f7f7f7;
+    color: #fcfcfc;
+    border-top: 2px solid #337ab7;
+    border-bottom: 2px solid #337ab7;
+    padding: 10px;
 }
 
 #table_infos th {
-    border-left: 2px solid #337ab7;
-    border-top:1px solid #337ab7;
-    border-bottom: 1px solid #337ab7;
-    padding: 2px;
+    color: #fcfcfc;
+    border-top: 2px solid #337ab7;
+    border-bottom: 2px solid #337ab7;
+    padding: 10px;
+}
+
+#table_infos td:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#table_infos {
+    min-width: 90%;
+    border-top: none;
+    border-bottom: none;
+    margin: auto;
 }
 
 .navbar-default {
@@ -115,8 +114,7 @@ body {
 
 .navbar-default .navbar-brand {
     color: #e1e5e8;
-    min-height: 70px;
-    line-height: 35px;
+    line-height: 30px;
 }
 
 .navbar-default .navbar-brand:hover {
@@ -125,7 +123,7 @@ body {
 
 .navbar-default .navbar-nav > li > a {
     color: #e1e5e8;
-    line-height: 35px;
+    line-height: 30px;
 }
 
 .navbar-default .navbar-nav > li > a:hover {

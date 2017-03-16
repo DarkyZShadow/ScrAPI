@@ -1,7 +1,7 @@
 document.getElementById('table_members').style.display = "none";
 
 $('form').submit(function (event) {
-    var wait_icon = '<i class="fa fa-spinner" aria-hidden="true"></i>';
+    var wait_icon = '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>';
     var input = $("#search_input").val().trim();
     
     if (input.length > 0)
@@ -27,7 +27,7 @@ $('form').submit(function (event) {
 	    
 	    $.ajax(settings).done(function (result) {
 		event.preventDefault();
-
+		console.log(result);
 		var table = document.getElementById('table_infos');
 		table.innerHTML = "";
 		for (var i = 0; i < Object.keys(result.data).length; i++) {
@@ -63,21 +63,20 @@ $('form').submit(function (event) {
 		{
 		    var employee = result.data.employees[i];
 		    var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
-		    
-				dt.row.add([
-					(employee.post ? employee.post : icon),
-					(employee.fullname ? employee.fullname : icon),
-					(employee.phone ? employee.phone : icon),
-					(employee.address ? employee.address : icon),
-					(employee.linkedin ? employee.linkedin : icon),
-					(employee.mail ? employee.mail : icon)
+		    dt.row.add([
+			(employee.post ? employee.post : icon),
+			(employee.fullname ? employee.fullname : icon),
+			(employee.phone ? employee.phone : icon),
+			(employee.address ? employee.address : icon),
+			(employee.linkedin ? employee.linkedin : icon),
+			(employee.mail ? employee.mail : icon)
 		    ]).draw();
 		}
 
 	    });
-	    
-	    var socket = io();
-	    socket.emit('', input);
+
+/*	    var socket = io();
+	    socket.emit('', input);*/
 	}
     
     return false;
