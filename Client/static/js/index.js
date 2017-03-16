@@ -76,7 +76,7 @@ $('form').submit(function (event) {
 				(employee.mail ? employee.mail : icon)
 				]).draw();
 			}
-			
+
 			var socket = io.connect(`http://${BOT_HOST}`, {
 				'sync disconnect on unload': true,
 				'forceNew' : true });
@@ -89,9 +89,13 @@ $('form').submit(function (event) {
 			socket.on("disconnect", function(){
 				console.log("Disconnected !");
 			});
-
-			socket.on('close', function(){
-				console.log("Closed !");
+			
+			socket.on("google_search", function(datas){
+				console.log(datas);
+			});
+			
+			socket.on("societe_search", function(datas){
+				console.log(datas);
 			});
 		}).fail(function (jqXHR, textStatus) {
 			if (jqXHR.status === 404)

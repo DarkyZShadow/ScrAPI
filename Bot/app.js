@@ -2,23 +2,16 @@ let cheerio = require('cheerio');
 let io = require('socket.io')();
 let events = require('./events/events.js');
 
-io.on('connection', events.connection);
-
-console.log('listening on *:9999');
-io.listen(9999);
-
-
-/*
 let clients = Array();
 
-io.on('connection', function(socket){
+io.on('connection', (socket) =>
+{
 	if (!containsSocket(clients, socket))
 	{
-		console.log("New client");
+		console.log('New client !');
 		
-		socket.on('event', function(data){
-			console.log("event");
-		});
+		socket.on('search_missings', (msg) => (events.search(socket, msg)));
+		
 		socket.on('disconnect', function(){
 			console.log("disconnect");
 			clients.splice(clients.indexOf(5), 1);
@@ -26,6 +19,9 @@ io.on('connection', function(socket){
 		clients.push(socket);
 	}
 });
+
+console.log('listening on *:9999');
+io.listen(9999);
 
 function containsSocket(arr, sock)
 {
@@ -36,4 +32,3 @@ function containsSocket(arr, sock)
            return true;
     return false;
 }
-*/

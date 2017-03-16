@@ -1,4 +1,4 @@
 
 module.exports = {
-	connection: require("./connection.js").event
+	search: require("./search.js").event
 }
