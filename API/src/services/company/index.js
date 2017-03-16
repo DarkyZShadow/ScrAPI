@@ -27,7 +27,7 @@ let every_properties = {
 	NIC: "NIC",
 	Nom: "nomen_long",
 	Adresse: "address",
-	Employes: "members",
+	employees: "employees",
 	Type: "libnj",
 	Description: "libape",
 	Taille: "libtef",
@@ -35,38 +35,59 @@ let every_properties = {
 	Creation: "dcr"
 };
 
-var newobj = {
-	SIREN:31351153,
-	NIC:02145,
-	nomen_long:"Atos",
-	employees: [
+/*var newobj = {
+	SIREN:				31351153,
+	NIC:					02145,
+	nomen_long:		"Atos",
+	employees:	[
 		{
-			post:"PDG",
-			fullname:"Maria DB",
-			phone:"0606060606",
-			address:"99 rue de l'SQL, 78500 Paris",
-			linkedin:"http://linkedin.com/",
-			mail:"test@test.sql"
+			post:			"PDG",
+			fullname:	"Maria DB",
+			phone:		"0606060606",
+			address:	"99 rue de l'SQL, 78500 Paris",
+			linkedin:	"http://linkedin.com/",
+			mail:			"test@test.sql"
 		},
 		{
-			post:"DRH",
-			fullname:"Steve theval",
-			phone:"0606060606",
-			address:"50 rue de l'Arbre, 78500 Paris",
-			linkedin:"http://linkedin.com/",
-			mail:"test@test.fr"
+			fullname:	"Steve theval",
+			phone:		"0606060606",
+			address:	"50 rue de l'Arbre, 78500 Paris",
+			linkedin:	"http://linkedin.com/",
+			mail:			"test@test.fr"
+		},
+		{
+			fullname:	"Sean Soulie",
+			phone:		"0606060606",
+			address:	"50 rue de l'Arbre, 78500 Paris",
+			linkedin:	"http://linkedin.com/",
+			mail:			"test@test.fr"
 		}
 	]
-};
+};*/
 
 module.exports = {
     comp_get: function (req, res)
 				{
-					if (!req.body || !req.body.name) {
+					if (!req.body || !req.body.id) {
 						res.sendStatus(500);
 						return;
 					}
-					Model.find({ nomen_long: new RegExp("^.*" + req.body.name + ".*$", "i") }, function(err,models) {
+					let id = req.body.id;
+					var query;
+					if (id.length == 9) {
+						if (isNaN(parseInt(id))) {
+							query = { nomen_long: new RegExp("^.*" + id + ".*$", "i") };
+						} else {
+							query = { SIREN: id };
+						}
+					} else if (id.length == 14) {
+						const splitAt = index => it => 
+						  [it.slice(0, index), it.slice(index)];
+						query = { SIREN: splitAt(9)(id)[0], NIC: parseInt(splitAt(9)(id)[1], 10) };
+					} else {
+						query = { nomen_long: new RegExp("^.*" + id + ".*$", "i") };
+					}
+					Model.find(query, function(err,models) {
          		if (err) {
             	res.render('error', {
                 status: 500
@@ -78,23 +99,7 @@ module.exports = {
 							}
 							let object = JSON.parse(JSON.stringify(models[0]));
 							var send = {
-								data: {
-									employees: [
-										{
-											fullname: "Jean Rinro",
-											post: "PDG",
-											phone: "0606060606",
-											address: "547 rue de l'Arbre, 75001 Paris",
-											linkedin: "http://linkedin.com/"
-										},
-										{
-											fullname: "Marie Dupont",
-											post: "DRH",
-											phone: "0606060606",
-											address: "59 rue de l'Arbre, 75001 Paris"
-										}
-									]
-								},
+								data: {},
 								missing: []
 							};
 							for(let i = 0; i < Object.keys(every_properties).length; i++) {
@@ -113,9 +118,13 @@ module.exports = {
 		comp_add_or_up: function (req, res)
 				{
 					if (req.body) {
-					r	
-					}
-					res.sendStatus(500);
+						let newobj = req.body;
+						Model.findOneAndUpdate({ 'SIREN':newobj.SIREN, 'NIC':newobj.NIC }, newobj, { upsert:true }, function(err, doc) {
+							if (err) return res.send(500, { error: err });
+								console.log('[BOT] Found new company informations (Company:' + newobj.nomen_long + ')');
+								res.sendStatus(200);
+						});
+					} else res.sendStatus(500);
 				}
 }
 
