@@ -1,6 +1,7 @@
 let request = require('request');
 let cheerio = require('cheerio');
 let Promise = require('promise');
+let iconv = require('iconv-lite');
 
 const GOOGLE_URL = 'https://www.google.fr/search?q=';
 const SOCIETE_URL = 'http://www.societe.com/cgi-bin/search?champs=';
@@ -69,6 +70,7 @@ function promise_societe(socket, SIREN, name)
 {
 	const options = {
 		method: 'GET',
+		encoding: null,
 		url: SOCIETE_URL + encodeURIComponent(SIREN),
 		headers: {
 			'User-Agent': USER_AGENT
@@ -79,9 +81,10 @@ function promise_societe(socket, SIREN, name)
 		request(options, function(error, response, html) {
 			if (error)
 				reject(error);
-			
+
+			let buf = iconv.decode(new Buffer(html), "ISO-8859-1");
 			var result = {};
-			var $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true, decodeEntities: false});
+			var $ = cheerio.load(buf, {ignoreWhitespace: true, lowerCaseTags: true});
 
 			$('table#rensjur').find('tr').filter(function(){
 				var name = $(this).children().first().text().trim();

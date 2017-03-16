@@ -1,5 +1,5 @@
 const API_HOST = "172.16.1.198:3030";
-const BOT_HOST = "127.0.0.1:9999";
+const BOT_HOST = "172.16.1.198:9999";
 
 document.getElementById('table_members').style.display = "none";
 
@@ -53,6 +53,8 @@ $('form').submit(function (event) {
 
 				th.innerHTML = result.missing[i];
 				td.innerHTML = wait_icon;
+				th.setAttribute("id", "th-" + result.missing[i]);
+				td.setAttribute("id", "td-" + result.missing[i]);
 				tr.appendChild(th);
 				tr.appendChild(td);
 				table.appendChild(tr);
@@ -90,12 +92,19 @@ $('form').submit(function (event) {
 				console.log("Disconnected !");
 			});
 			
-			socket.on("google_search", function(datas){
+			socket.on("google_search", function(datas) {
 				console.log(datas);
 			});
 			
-			socket.on("societe_search", function(datas){
+			socket.on("societe_search", function(datas) {
 				console.log(datas);
+				if (datas) {
+					for (var i in datas) {
+						var td = document.getElementById('td-' + i);
+						if (td) td.innerHTML = datas[i];
+					}
+				}
+
 			});
 		}).fail(function (jqXHR, textStatus) {
 			if (jqXHR.status === 404)
