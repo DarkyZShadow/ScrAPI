@@ -4,9 +4,9 @@ let events = require('./events/events.js');
 
 io.on('connection', events.connection);
 
-io.listen(9999, function(){
-	console.log('listening on *:9999');
-});
+console.log('listening on *:9999');
+io.listen(9999);
+
 
 /*
 let clients = Array();

@@ -1,3 +1,6 @@
+const API_HOST = "172.16.1.198:3030";
+const BOT_HOST = "127.0.0.1:9999";
+
 document.getElementById('table_members').style.display = "none";
 
 $('form').submit(function (event) {
@@ -15,7 +18,7 @@ $('form').submit(function (event) {
 	    var settings = {
 		"async": true,
 		"crossDomain": true,
-		"url": "http://172.16.1.198:3030/company",
+		"url": `http://${API_HOST}/company`,
 		"method": "POST",
 		"headers": {
 		    "content-type": "application/json",
@@ -27,7 +30,7 @@ $('form').submit(function (event) {
 	    
 	    $.ajax(settings).done(function (result) {
 		event.preventDefault();
-		console.log(result);
+		
 		var table = document.getElementById('table_infos');
 		table.innerHTML = "";
 		for (var i = 0; i < Object.keys(result.data).length; i++) {
@@ -75,12 +78,12 @@ $('form').submit(function (event) {
 
 	    });
 
-/*	    var socket = io();
-	    socket.emit('', input);*/
+	    var socket = io.connect(`http://${BOT_HOST}`);
+		
+		socket.emit('search_missings', result);
 	}
     
     return false;
-    
 });
 
 $('a[href="#search"]').on('click', function (event) {
