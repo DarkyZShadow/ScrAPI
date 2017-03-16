@@ -1,6 +1,6 @@
 /*
 **
-**	Project : ScrAPI
+*	Project : ScrAPI
 **	File : This is the list route index
 **	Method : POST
 **
@@ -10,16 +10,16 @@ let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 let logger = require('../../middleware/logger.js');
 let	db = require('../../../config/db.js');
-//db.mongoose = mongoose
 
-var schema = new db.mongoose.Schema({
+let schema = new db.mongoose.Schema({
 	SIREN: Number,
 	NIC: Number,
 	nomen_long: String,
 	employees: Array
 });
 schema.set('collection', 'raw_datas');
-var Model = mongoose.model('datas', schema);
+
+let Model = mongoose.model('datas', schema);
 
 let every_properties = {
 	SIREN: "SIREN",
@@ -65,6 +65,45 @@ let every_properties = {
 	]
 };*/
 
+const splitAt = index => it => 
+						  [it.slice(0, index), it.slice(index)];
+
+function company_find(res, query) {
+	Model.find(query).exec(function(err,models) {
+    if (err) {
+     	res.render('error', {
+			status: 500
+    });
+    } else {
+			if (!models[0]) {
+				res.sendStatus(404);
+				return;
+			}
+			let object = JSON.parse(JSON.stringify(models[0]));
+			var send = {
+				data: {},
+				missing: []
+			};
+			for(let i = 0; i < Object.keys(every_properties).length; i++) {
+				let key = Object.keys(every_properties)[i];
+				let value = every_properties[key];
+				if (object[value]) {
+					if (key == 'Creation') {
+						var pattern = /(\d{4})(\d{2})(\d{2})/;
+						var str = object[value];
+						str = String(str);
+						send.data[key] = String(str.replace(pattern, '$1-$2-$3'));
+					} else
+						send.data[key] = object[value];
+					} else {
+						send.missing.push(key);
+					}
+			}
+      res.jsonp(send);
+    }
+  });
+}
+
 module.exports = {
     comp_get: function (req, res)
 				{
@@ -81,39 +120,11 @@ module.exports = {
 							query = { SIREN: id };
 						}
 					} else if (id.length == 14) {
-						const splitAt = index => it => 
-						  [it.slice(0, index), it.slice(index)];
 						query = { SIREN: splitAt(9)(id)[0], NIC: parseInt(splitAt(9)(id)[1], 10) };
 					} else {
 						query = { nomen_long: new RegExp("^.*" + id + ".*$", "i") };
-					}
-					Model.find(query, function(err,models) {
-         		if (err) {
-            	res.render('error', {
-                status: 500
-            	});
-        		} else {
-							if (!models[0]) {
-								res.sendStatus(500);
-								return;
-							}
-							let object = JSON.parse(JSON.stringify(models[0]));
-							var send = {
-								data: {},
-								missing: []
-							};
-							for(let i = 0; i < Object.keys(every_properties).length; i++) {
-								let key = Object.keys(every_properties)[i];
-								let value = every_properties[key];
-								if (object[value]) {
-									send.data[key] = object[value];
-								} else {
-									send.missing.push(key);
-								}
-							}
-            	res.jsonp(send);
-        		}
-    			});
+					}	
+					company_find(res, query);
 				},
 		comp_add_or_up: function (req, res)
 				{
