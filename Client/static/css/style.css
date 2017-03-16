@@ -1,5 +1,5 @@
 body {
-    background: url("../background.jpg");
+    background: url("../pictures/background.jpg");
 }
 
 #search {
@@ -95,7 +95,11 @@ body {
     padding: 10px;
 }
 
-#table_infos td:hover {
+#table_infos tr {
+    transition: .2s ease;
+}
+
+#table_infos tr:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
