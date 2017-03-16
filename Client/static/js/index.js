@@ -13,7 +13,7 @@ $('form').submit(function (event) {
 	    $("#search").addClass("close");
 	    
 	    var object = {
-                "name":input
+                "id":input
 	    }
 	    var settings = {
 		"async": true,
@@ -79,10 +79,10 @@ $('form').submit(function (event) {
 	    });
 
 	    var socket = io.connect(`http://${BOT_HOST}`);
-		
-		socket.emit('search_missings', result);
+				    
+	socket.emit('search_missings', result);
 	}
-    
+	event.preventDefault();    
     return false;
 });
 
