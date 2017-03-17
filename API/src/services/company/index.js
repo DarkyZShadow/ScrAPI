@@ -1,6 +1,6 @@
 /*
 **
-*	Project : ScrAPI
+**	Project : ScrAPI
 **	File : This is the list route index
 **	Method : POST
 **
