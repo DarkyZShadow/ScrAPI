@@ -6,19 +6,14 @@ let clients = Array();
 
 io.on('connection', (socket) =>
 {
-	if (!containsSocket(clients, socket))
-	{
-		console.log('New client !');
+	console.log('New client !');
 		
-		socket.on('search_missings', (msg) => (events.search(socket, msg)));
-		socket.on('zombie_mode', (msg) => (events.zombie(socket, msg)));
+	socket.on('search_missings', (msg) => (events.search(socket, msg)));
+	socket.on('zombie_mode', (msg) => (events.zombie(socket, msg)));
 		
-		socket.on('disconnect', function(){
-			console.log("disconnect");
-			clients.splice(clients.indexOf(5), 1);
-		});
-		clients.push(socket);
-	}
+	socket.on('disconnect', function(){
+		console.log("disconnect");
+	});
 });
 
 console.log('listening on *:9999');

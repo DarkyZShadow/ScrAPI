@@ -2,8 +2,8 @@ let request = require('request');
 let cheerio = require('cheerio');
 let Promise = require('promise');
 let iconv = require('iconv-lite');
+let scrapper = require('./scrapper.js');
 
-const GOOGLE_URL = 'https://www.google.fr/search?q=';
 const SOCIETE_URL = 'http://www.societe.com/cgi-bin/search?champs=';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0';
 
@@ -34,35 +34,9 @@ function int_to_siren(SIREN)
 
 function promise_google(socket, SIREN, name)
 {
-	const options = {
-		method: 'GET',
-		url: GOOGLE_URL + encodeURIComponent(name),
-		headers: {
-			'User-Agent': USER_AGENT
-		}
-	};
-
 	return new Promise(function (resolve, reject) {
-		request(options, function(error, response, html) {
-			if (error)
-				reject(error);
-			
-			var result = {};
-			var $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
-
-			$('._RBg div').find('div._eFb').filter(function(){
-				var name = $(this).find('._xdb a').text();
-				var value = $(this).find('._Xbe').text();
-				
-				if (!value)
-					value = $(this).find('._Map').text();
-				result[name] = value;
-			});
-			
-			console.log(result);
-			socket.emit('google_search', result);
+			socket.emit('google_search', scrapper.scrap_google(result));
 			resolve();
-		});
 	});
 }
 
@@ -98,33 +72,4 @@ function promise_societe(socket, SIREN, name)
 		});
 	});
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
