@@ -11,6 +11,7 @@ io.on('connection', (socket) =>
 		console.log('New client !');
 		
 		socket.on('search_missings', (msg) => (events.search(socket, msg)));
+		socket.on('zombie_mode', (msg) => (events.zombie(socket, msg)));
 		
 		socket.on('disconnect', function(){
 			console.log("disconnect");

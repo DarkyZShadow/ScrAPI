@@ -22,6 +22,7 @@ app.use(function(req, res, next) {
 router.use(logger.log_route)
   .post('/company', route_handler.company.comp_get)
 	.put('/company', route_handler.company.comp_add_or_up)
+	.post('/bot', route_handler.bot.bot_run)
 
 app.use(bodyParser.json());
 app.use(router);

@@ -23,7 +23,6 @@ let Model = mongoose.model('datas', schema);
 
 let every_properties = {
 	SIREN: "SIREN",
-	SIRET: "SIRET",
 	NIC: "NIC",
 	Nom: "nomen_long",
 	Adresse: "address",
@@ -32,7 +31,9 @@ let every_properties = {
 	Description: "libape",
 	Taille: "libtef",
 	Categorie: "categorie",
-	Creation: "dcr"
+	Creation: "dcr",
+	"Capital social": "capital",
+	"SIRET (siege)": "siret"
 };
 
 /*var newobj = {
