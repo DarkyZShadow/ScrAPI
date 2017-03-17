@@ -33,18 +33,34 @@ $('form').submit(function (event) {
 			var table = document.getElementById('table_infos');
 			
 			table.innerHTML = "";
-			for (var i = 0; i < Object.keys(result.data).length; i++) {
-				var key = Object.keys(result.data)[i];
-				if (result.data[key] instanceof Object || result.data[key] instanceof Array) continue;
-				var tr = document.createElement("tr");
-				var th = document.createElement("th");
-				var td = document.createElement("td");
+			if (result.data && result.data.SIREN) {
+				for (var i = 0; i < Object.keys(result.data).length; i++) {
+					var key = Object.keys(result.data)[i];
+					if (result.data[key] instanceof Object || result.data[key] instanceof Array) continue;
+					var tr = document.createElement("tr");
+					var th = document.createElement("th");
+					var td = document.createElement("td");
 
-				th.innerHTML = key;
-				td.innerHTML = result.data[key];
-				tr.appendChild(th);
-				tr.appendChild(td);
-				table.appendChild(tr);
+					th.innerHTML = key;
+					td.innerHTML = result.data[key];
+					tr.appendChild(th);
+					tr.appendChild(td);
+					table.appendChild(tr);
+				}
+				var obj = Object.keys(result.data.employees);
+				for (var i in obj)
+				{
+					var employee = result.data.employees[i];
+					var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
+					dt.row.add([
+						(employee.post ? employee.post : icon),
+						(employee.fullname ? employee.fullname : icon),
+						(employee.phone ? employee.phone : icon),
+						(employee.address ? employee.address : icon),
+						(employee.linkedin ? employee.linkedin : icon),
+						(employee.mail ? employee.mail : icon)
+					]).draw();
+				}
 			}
 			for (var i = 0; i < result.missing.length; i++) {
 				var tr = document.createElement("tr");
@@ -59,26 +75,7 @@ $('form').submit(function (event) {
 				tr.appendChild(td);
 				table.appendChild(tr);
 			}
-
-			document.getElementById('table_members').style.display = "inline-table";
-			var dt = $('#table_members').DataTable();
-			var obj = Object.keys(result.data.employees);
 			
-			dt.clear().draw();
-			for (var i in obj)
-			{
-				var employee = result.data.employees[i];
-				var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
-				dt.row.add([
-				(employee.post ? employee.post : icon),
-				(employee.fullname ? employee.fullname : icon),
-				(employee.phone ? employee.phone : icon),
-				(employee.address ? employee.address : icon),
-				(employee.linkedin ? employee.linkedin : icon),
-				(employee.mail ? employee.mail : icon)
-				]).draw();
-			}
-
 			var socket = io.connect(`http://${BOT_HOST}`, {
 				'sync disconnect on unload': true,
 				'forceNew' : true });

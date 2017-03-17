@@ -76,7 +76,7 @@ let every_properties = {
 const splitAt = index => it => 
 						  [it.slice(0, index), it.slice(index)];
 
-function company_find(res, query) {
+function company_find(res, query, id) {
 	Model.find(query).exec(function(err,models) {
     if (err) {
      	res.render('error', {
@@ -87,13 +87,14 @@ function company_find(res, query) {
 				data: {},
 				missing: []
 			};
+			let name = String(query.nomen_long);
 			if (!models[0]) {
 				for(let i = 0; i < Object.keys(every_properties).length; i++) {
 					let key = Object.keys(every_properties)[i];
 					if (key != "Nom")
 						send.missing.push(key);
 					else
-						send.data.Nom = query.name;
+						send.data.Nom = id;
 				}
 				res.jsonp(send);
 				return;
@@ -144,7 +145,7 @@ module.exports = {
 					} else {
 						query = { nomen_long: new RegExp("^.*" + id + ".*$", "i") };
 					}	
-					company_find(res, query);
+					company_find(res, query, id);
 				},
 		comp_add_or_up: function (req, res)
 				{

@@ -15,12 +15,12 @@ let possible_properties = [
 	"Pays",
 	"Capital social",
 	"SIRET (siege)",
-	"Telephone"
+	"Téléphe"
 ];
 
 module.exports = {
 	possible_properties: possible_properties,
-	scrap_google: function(SIREN, name)
+	scrap_google: function(name)
 		{
 			const options = {
 					method: 'GET',
@@ -39,13 +39,16 @@ module.exports = {
 					
 					$('._RBg div').find('div._eFb').filter(function(){
 						let name = $(this).find('._xdb a').text();
+						if (!name)
+							name = $(this).find('._xdb').text();
 						let value = $(this).find('._Xbe').text();
 															
 						if (!value)
 								value = $(this).find('._Map').text();
 						result[name] = value;
 					});
-
+					console.log(options.url);
+					console.log(result);
 					return (result);
 				});
 		},

@@ -9,12 +9,13 @@ const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101
 
 exports.event = (socket, datas) => {
 	let allPromises = Array();
-	let SIREN = int_to_siren(datas.data.SIREN);
+	let SIREN = to_siren(datas.data.SIREN);
 	let name = datas.data.Nom;
 	let SIRET = datas.data.SIRET;
+	if (!SIRET)
+		SIRET = to_siret(datas.data.SIREN, datas.data.NIC);
 	/* let missings = datas.missing; */
-	console.log(datas);
-	let google = promise_google(socket, SIREN, name);
+	let google = promise_google(socket, name);
 	let societe = promise_societe(socket, SIREN, name);
 	let societe2 = promise_societe2(socket, SIRET);
 
@@ -25,20 +26,28 @@ exports.event = (socket, datas) => {
 	Promise.all(allPromises).then(() => socket.disconnect('end of datas'));
 }
 
-
-function int_to_siren(SIREN)
+function to_siren(SIREN)
 {
-	let output = SIREN + '';
-	
-    while (output.length < 9)
-        output = '0' + output;
-    return output;
+  let output = String(SIREN);
+
+	while (output.length < 9)
+		output = '0' + output;
+	return output;
 }
 
-function promise_google(socket, SIREN, name)
+function to_siret(SIREN, NIC)
+{
+	let output = String(NIC);
+
+	while (output.length < 5)
+		output = '0' + output;
+	return (to_siren(SIREN) + output);
+}
+
+function promise_google(socket, name)
 {
 	return new Promise(function (resolve, reject) {
-			socket.emit('google_search', scrapper.scrap_google(result));
+			socket.emit('google_search', scrapper.scrap_google(name));
 			resolve();
 	});
 }
