@@ -120,8 +120,8 @@ module.exports = {
 						} else {
 							query = { SIREN: id };
 						}
-					} else if (id.length == 14) {
-						query = { SIREN: splitAt(9)(id)[0], NIC: parseInt(splitAt(9)(id)[1], 10) };
+					} else if (id.length == 14 && !isNaN(id))  {
+						query = { SIREN: splitAt(9)(id)[0], NIC: splitAt(9)(id)[1] };
 					} else {
 						query = { nomen_long: new RegExp("^.*" + id + ".*$", "i") };
 					}	

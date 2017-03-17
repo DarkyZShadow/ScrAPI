@@ -11,13 +11,16 @@ exports.event = (socket, datas) => {
 	let allPromises = Array();
 	let SIREN = int_to_siren(datas.data.SIREN);
 	let name = datas.data.Nom;
+	let SIRET = datas.data.SIRET;
 	/* let missings = datas.missing; */
 
 	let google = promise_google(socket, SIREN, name);
 	let societe = promise_societe(socket, SIREN, name);
-	
+	let societe2 = promise_societe(socket, SIRET);
+
 	allPromises.push(google);
 	allPromises.push(societe);
+	allPromises.push(societe2);
 	
 	Promise.all(allPromises).then(() => socket.disconnect('end of datas'));
 }
@@ -73,3 +76,10 @@ function promise_societe(socket, SIREN, name)
 	});
 }
 
+function promise_societe2(socket, SIRET)
+{
+	return new Promise(function (resolve, reject) {
+		socket.emit('societe_search', scrapper.scrap_google(result));
+		resolve();
+	});
+}
