@@ -1,8 +1,6 @@
 const API_HOST = "172.16.1.198:3030";
 const BOT_HOST = "172.16.1.198:9999";
 
-document.getElementById('table_members').style.display = "none";
-
 $('form').submit(function (event) {
     var wait_icon = '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>';
     var input = $("#search_input").val().trim();
@@ -31,7 +29,9 @@ $('form').submit(function (event) {
 		event.preventDefault();
 	    $.ajax(settings).done(function (result) {
 			var table = document.getElementById('table_infos');
-			
+			var dt = $('#table_members').DataTable();
+			dt.clear().draw();
+
 			table.innerHTML = "";
 			if (result.data && result.data.SIREN) {
 				for (var i = 0; i < Object.keys(result.data).length; i++) {
