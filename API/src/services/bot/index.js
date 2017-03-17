@@ -7,7 +7,6 @@
 **
 */
 
-let io = require('socket.io-client')("http://localhost:9999");
 let logger = require('../../middleware/logger.js');
 
 function to_siren(SIREN)
@@ -29,19 +28,21 @@ function to_siret(SIREN, NIC)
 }
 
 module.exports = {
-	bot_run: function(req, res)
+	bot_run: function(req, res, io)
 		{
-			if (!req.body || !req.body.SIREN || !req.body.NIC
-					|| !req.body.SIREN instanceof String || !req.body.NIC instanceof String) {
+			if (!req.body || !req.body instanceof Array) {
 				res.sendStatus(400);
-				return;
+				return ;
 			}
 
-			let SIRET = to_siret(req.body.SIREN, req.body.NIC);
-			var data = {
-				SIRET: SIRET
-				};
-			io.emit("zombie_mode", data);
+			let arr = req.body;
+			for (let i = 0; i < arr.length; i++) {
+				if (arr[i]) {
+					arr[i].SIRET = to_siret(arr[i].SIREN, arr[i].NIC);
+				}
+			}
+			
+			io.emit("zombie_mode", arr);
 			res.sendStatus(200);
 		}
 }

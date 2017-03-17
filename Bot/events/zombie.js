@@ -3,17 +3,14 @@ let scrapper = require('./scrapper.js');
 
 exports.event = (socket, data) => {
 	let allPromises = Array();
-	let societe = promise_societe(socket, data.SIRET);
-	console.log(data.SIRET);
-	allPromises.push(societe);
 
-	//Promise.all(allPromises).then(() => socket.disconnect('end of datas'));
-}
-
-function promise_societe(socket, SIRET)
-{
-	return new Promise(function (resolve, reject) {
-			scrapper.scrap_societe(SIRET);
-			resolve();
-	});
+	for (let i = 0; i < data.length; i++) {
+		if (data[i] && data[i].SIRET && data[i].SIREN && data[i].NIC) {
+			scrapper.scrap_societe(data[i].SIRET, function(result) {
+				result.SIREN = parseInt(data[i].SIREN);
+				result.NIC = parseInt(data[i].NIC);
+				socket.emit('insert', result);
+			});
+		}
+	}
 }

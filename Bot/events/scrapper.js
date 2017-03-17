@@ -49,7 +49,7 @@ module.exports = {
 					return (result);
 				});
 		},
-		scrap_societe: function(SIRET)
+		scrap_societe: function(SIRET, callback)
 			{
 				const options = {
 					method: 'GET',
@@ -74,8 +74,9 @@ module.exports = {
 						if (possible_properties.indexOf(name) > -1)
 							result[name] = value;
 					});
+					console.log(SIRET);
 					console.log(result);
-					return (result);
+					callback (result);
 				});
 			}
 }

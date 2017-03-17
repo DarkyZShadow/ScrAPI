@@ -14,8 +14,12 @@ let	db = require('../../../config/db.js');
 let schema = new db.mongoose.Schema({
 	SIREN: Number,
 	NIC: Number,
-	nomen_long: String,
-	employees: Array
+	'nomen_long': String,
+	"Adresse": String,
+	'Code postal': String,
+	'Ville': String,
+	'Pays': String,
+	'employees': Array
 });
 schema.set('collection', 'raw_datas');
 
@@ -26,6 +30,9 @@ let every_properties = {
 	NIC: "NIC",
 	Nom: "nomen_long",
 	Adresse: "address",
+	'Code postal': 'Code postal',
+	Ville: 'Ville',
+	Pays: 'Pays',
 	employees: "employees",
 	Type: "libnj",
 	Description: "libape",
@@ -76,8 +83,19 @@ function company_find(res, query) {
 			status: 500
     });
     } else {
+			var send = {
+				data: {},
+				missing: []
+			};
 			if (!models[0]) {
-				res.sendStatus(404);
+				for(let i = 0; i < Object.keys(every_properties).length; i++) {
+					let key = Object.keys(every_properties)[i];
+					if (key != "Nom")
+						send.missing.push(key);
+					else
+						send.data.Nom = query.name;
+				}
+				res.jsonp(send);
 				return;
 			}
 			let object = JSON.parse(JSON.stringify(models[0]));
@@ -138,6 +156,17 @@ module.exports = {
 								res.sendStatus(200);
 						});
 					} else res.sendStatus(500);
+				},
+		comp_add_or_up_bot: function (data)
+				{
+					console.log(data);
+					if (data) {
+						Model.findOneAndUpdate({ 'SIREN':data.SIREN, 'NIC':data.NIC }, data, { upsert:true }, function(err, doc) {
+							if (err) return;
+							console.log('[BOT] Found new company informations (Company:' + doc.nomen_long + ')');
+						});
+					}
 				}
+
 }
 
