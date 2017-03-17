@@ -94,11 +94,12 @@ function company_find(res, query) {
 						var str = object[value];
 						str = String(str);
 						send.data[key] = String(str.replace(pattern, '$1-$2-$3'));
-					} else
-						send.data[key] = object[value];
 					} else {
+							send.data[key] = object[value];
+						}
+				} else {
 						send.missing.push(key);
-					}
+				}
 			}
       res.jsonp(send);
     }

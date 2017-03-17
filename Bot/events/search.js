@@ -67,7 +67,8 @@ function promise_societe(socket, SIREN, name)
 				var name = $(this).children().first().text().trim();
 				var value = $(this).children().last().text().trim();
 				
-				result[name] = value;
+				if (scrapper.possible_properties.indexOf(name) > -1)
+					result[name] = value;
 			});
 			
 			socket.emit('societe_search', result);
