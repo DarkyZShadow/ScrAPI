@@ -12,50 +12,48 @@ module.exports = {
 	scrap_google: function(name)
 		{
 			const options = {
-					method: 'GET',
-					url: GOOGLE_URL + encodeURIComponent(name),
-					headers: {
-						'User-Agent': USER_AGENT
-					}
-				};
-				return new Promise(function (resolve, reject) {
-					request(options, function(error, response, html) {
-						if (error)
-							reject(error);
+				method: 'GET',
+				url: GOOGLE_URL + encodeURIComponent(name),
+				headers: {
+					'User-Agent': USER_AGENT
+				}
+			};
+			return new Promise(function (resolve, reject) {
+				request(options, function(error, response, html) {
+					if (error)
+						reject(error);
 
-						let result = {
-							"Nom": kw.capitalize(name)
-						};
-						let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
-					
-						$('._RBg div').find('div._eFb').filter(function(){
-							let name = $(this).find('._xdb a').text();
-							if (!name)
-								name = $(this).find('._xdb').text();
-							let value = $(this).find('._Xbe').text();
-															
-							if (!value)
-								value = $(this).find('._Map').text();
-							name = kw.validProperty(kw.accent_fold(name));
-							value = kw.accent_fold(value);
-							
-							if (name) {
-								result[name] = value;
-							}
-						});
-            let url = $('#rso').children().first().children().first().children().first()
-							.children().first().children().last().children().first()
-							.children().first().children().first().text();
+					let result = {
+						"Nom": kw.capitalize(name)
+					};
+					let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
 
-						if (!url) {
-							url = $('#rso').children().first().children().first().children().first()
-										.children().last().children().first()
-										.children().first().children().first().text();
-						}
-						result.Url = url;
-						resolve (result);
+					$('._RBg div').find('div._eFb').filter(function(){
+						let name = $(this).find('._xdb a').text();
+						if (!name)
+							name = $(this).find('._xdb').text();
+						let value = $(this).find('._Xbe').text();
+
+						if (!value)
+							value = $(this).find('._Map').text();
+						name = kw.validProperty(kw.accent_fold(name));
+						value = kw.accent_fold(value);
+
+						if (name)
+							result[name] = value;
 					});
+            		let url = $('#rso').children().first().children().first().children().first()
+						.children().first().children().last().children().first()
+						.children().first().children().first().text();
+
+					if (!url)
+						url = $('#rso').children().first().children().first().children().first()
+							.children().last().children().first()
+							.children().first().children().first().text();
+					result.Url = url;
+					resolve (result);
 				});
+			});
 		},
 		scrap_societe: function(SIRET, callback)
 			{
@@ -65,7 +63,7 @@ module.exports = {
 					url: SOCIETE_URL + encodeURIComponent(SIRET),
 					headers: {
 						'User-Agent': USER_AGENT
-				  }
+					}
 				};
 
 				request(options, function(error, response, html) {
@@ -74,16 +72,17 @@ module.exports = {
 
 					let buf = iconv.decode(new Buffer(html), "ISO-8859-1");
 					let result = {};
-					if(SIRET && parseInt(SIRET) > 100) {
+					if(SIRET && parseInt(SIRET) > 100)
+					{
 						let SIREN = SIRET.substr(0,9);
 						result.SIREN = SIREN;
 					}
 					let $ = cheerio.load(buf, {ignoreWhitespace: true, lowerCaseTags: true});
 
-					$('table#etab').find('tr').filter(function(){
+					$('table#etab').find('tr').filter(function() {
 						let name = $(this).children().first().text().trim();
 						let value = $(this).children().last().text().trim();
-						
+
 						name = kw.validProperty(name);
 						if (name)
 							result[name] = value;
