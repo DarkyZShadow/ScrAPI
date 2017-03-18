@@ -9,6 +9,8 @@ exports.event = (socket, data) => {
 			scrapper.scrap_societe(data[i].SIRET, function(result) {
 				result.SIREN = parseInt(data[i].SIREN);
 				result.NIC = parseInt(data[i].NIC);
+				result.nomen_long = result.Nom;
+				delete result.Nom;
 				socket.emit('insert', result);
 			});
 		}

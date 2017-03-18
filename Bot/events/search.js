@@ -16,6 +16,7 @@ exports.event = (socket, datas) => {
 	if (!SIRET)
 		SIRET = to_siret(datas.data.SIREN, datas.data.NIC);
 	/* let missings = datas.missing; */
+
 	let google = promise_google(socket, name);
 	let societe = promise_societe(socket, SIREN, name);
 	let societe2 = promise_societe2(socket, SIRET);

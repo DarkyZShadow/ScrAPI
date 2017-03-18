@@ -1,27 +1,51 @@
 let table =
-	{
-		"Telephone": [
-			"Telephone", "telephone", "Phone", "Service Client", "Service client"
-		],
-		"Adresse": [
-			"Adresse&nbsp;: ", "Adresse", "adresse", "adress", "Adresse&nbsp:", "Adresse&nbsp:&nbsp"
-		],
-		"Ville": [
-			"Ville", "ville", "city", "City"
-		],
-		"Pays": [
-			"Pays", "pays"
-		],
-		"SIRET": [
-			"SIRET", "SIRET (siege)"
-		],
-		"Code postal": [
-			"Code postal", "Code Postal", "ZIP", "zip", "code postal"
-		],
-		"Creation": [
-		    "Creation&nbsp:", "Creation&nbsp:", "creation", "Creation"
-		]
-	}
+    {
+	"Telephone": [
+	    "Telephone", "telephone", "Phone", "Service Client", "Service client"
+	],
+	"Adresse": [
+	    "Adresse&nbsp;: ", "Adresse", "adresse", "adress", "Adresse&nbsp:", "Adresse&nbsp:&nbsp"
+	],
+	"Ville": [
+	    "Ville", "ville", "city", "City"
+	],
+	"Pays": [
+	    "Pays", "pays"
+	],
+	"SIRET": [
+	    "SIRET", "SIRET (siege)"
+	],
+	"Code postal": [
+	    "Code postal", "Code Postal", "ZIP", "zip", "code postal"
+	],
+	"Creation": [
+	    "Creation&nbsp:", "Creation&nbsp:", "creation", "Creation", "Date de création entreprise"
+	],
+	"Nom": [
+	    "Nom", "Dénomination"
+	],
+	"Capital social": [
+	    "Capital Social", "Capital social"
+	],
+	"SIREN": [
+	    "SIREN", "Siren"
+	],
+	"NIC": [
+	    "NIC", "Nic", "N° d'établissement (NIC)"
+	],
+	"Type": [
+	    "Nature de l'établissement", "Type"
+	],
+	"Taille": [
+	    "Taille de l'unité urbaine", "Taille"
+	],
+	"Categorie": [
+	    "Categorie", "Nature de l'établissement"
+	],
+	"Description": [
+	    "Libellé du code APE", "Description"
+	]
+    };
 
 module.exports = {
 	assoc: table,
@@ -33,7 +57,7 @@ module.exports = {
 			
 			for(let j = 0; j < value.length; j++) {
 				if (value[j] == name)
-					return (value[j]);
+					return (key);
 			}
 		}
 		return (undefined);
@@ -59,6 +83,10 @@ module.exports = {
 	    }
 	    return ret;
 	};
-    }())
+    }()),
+    capitalize: function(s)
+    {
+	return s && s[0].toUpperCase() + s.slice(1);
+    }
 }
 
