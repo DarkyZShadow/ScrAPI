@@ -51,10 +51,15 @@ function to_siret(SIREN, NIC)
 function promise_google(socket, name)
 {
 	return new Promise(function (resolve, reject) {
+		if (!name)
+			resolve();
+		else {
 			scrapper.scrap_google(name).then(result => {
+				console.log(result);
 				socket.emit('google_search', result);
 				resolve();
 			});
+		}
 	});
 }
 

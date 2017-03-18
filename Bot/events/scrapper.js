@@ -26,7 +26,8 @@ module.exports = {
 						let result = {
 							"Nom": kw.capitalize(name)
 						};
-						let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
+						let buf = iconv.decode(new Buffer(html), "ISO-8859-1");
+						let $ = cheerio.load(buf, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
 					
 						$('._RBg div').find('div._eFb').filter(function(){
 							let name = $(this).find('._xdb a').text();
@@ -35,7 +36,7 @@ module.exports = {
 							let value = $(this).find('._Xbe').text();
 															
 							if (!value)
-									value = $(this).find('._Map').text();
+								value = $(this).find('._Map').text();
 							name = kw.validProperty(kw.accent_fold(name));
 							value = kw.accent_fold(value);
 							
@@ -43,10 +44,16 @@ module.exports = {
 								result[name] = value;
 							}
 						});
-                        let url = $('#rso').children().first().children().first().children().first()
-                            .children().first().children().last().children().first()
-                            .children().first().children().first().text();
-                        result.url = url;
+            let url = $('#rso').children().first().children().first().children().first()
+							.children().first().children().last().children().first()
+							.children().first().children().first().text();
+
+						if (!url) {
+							url = $('#rso').children().first().children().first().children().first()
+										.children().last().children().first()
+										.children().first().children().first().text();
+						}
+						result.Url = url;
 						resolve (result);
 					});
 				});

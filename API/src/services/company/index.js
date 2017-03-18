@@ -20,7 +20,8 @@ let schema = new db.mongoose.Schema({
 	'Ville': String,
 	'Pays': String,
 	'Service client': String,
-	'employees': Array
+	'employees': Array,
+	'url': String
 });
 schema.set('collection', 'raw_datas');
 
@@ -42,7 +43,8 @@ let every_properties = {
 	Creation: "dcr",
 	"Capital social": "capital",
 	"SIRET": "siret",
-	"Telephone": "Telephone"
+	"Telephone": "Telephone",
+	"Url": "url"
 };
 
 /*var newobj = {
