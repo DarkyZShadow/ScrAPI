@@ -1,0 +1,19 @@
+version: "3"
+services:
+  db:
+    image: mongo
+    ports:
+      - "27018:27018"
+    command: mongod --port 27018
+    volumes:
+      - ./database:/data/db
+  api:
+    build: ./api
+    ports:
+      - "3031:3031"
+  client:
+    build: ./client
+    ports:
+      - "8080:8080"
+    links:
+      - db
