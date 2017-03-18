@@ -41,6 +41,10 @@ module.exports = {
 								result[name] = value;
 							}
 						});
+                        let url = $('#rso').children().first().children().first().children().first()
+                            .children().first().children().last().children().first()
+                            .children().first().children().first().text();
+                        result.url = url;
 						resolve (result);
 					});
 				});
