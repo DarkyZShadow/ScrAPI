@@ -4,8 +4,7 @@ let events = require('./events/events.js');
 
 let clients = Array();
 
-io.on('connection', (socket) =>
-{
+io.on('connection', (socket) => {
 	console.log('New client !');
 		
 	socket.on('search_missings', (msg) => (events.search(socket, msg)));
