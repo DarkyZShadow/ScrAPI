@@ -2,24 +2,13 @@ let request = require('request');
 let cheerio = require('cheerio');
 let Promise = require('promise');
 let iconv = require('iconv-lite');
+let kw = require('./keywords.js');
 
 const GOOGLE_URL = 'https://www.google.fr/search?q=';
 const SOCIETE_URL = 'http://www.societe.com/cgi-bin/search?champs=';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0';
 
-let possible_properties = [
-	"Date de création entrepriss",
-	"Adresse",
-	"Code postal",
-	"Ville",
-	"Pays",
-	"Capital social",
-	"SIRET (siege)",
-	"Téléphe"
-];
-
 module.exports = {
-	possible_properties: possible_properties,
 	scrap_google: function(name)
 		{
 			const options = {
@@ -29,27 +18,31 @@ module.exports = {
 						'User-Agent': USER_AGENT
 					}
 				};
+				return new Promise(function (resolve, reject) {
+					request(options, function(error, response, html) {
+						if (error)
+							reject(error);
 
-				request(options, function(error, response, html) {
-					if (error)
-						reject(error);
-
-					let result = {};
-					let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
+						let result = {};
+						let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
 					
-					$('._RBg div').find('div._eFb').filter(function(){
-						let name = $(this).find('._xdb a').text();
-						if (!name)
-							name = $(this).find('._xdb').text();
-						let value = $(this).find('._Xbe').text();
+						$('._RBg div').find('div._eFb').filter(function(){
+							let name = $(this).find('._xdb a').text();
+							if (!name)
+								name = $(this).find('._xdb').text();
+							let value = $(this).find('._Xbe').text();
 															
-						if (!value)
-								value = $(this).find('._Map').text();
-						result[name] = value;
+							if (!value)
+									value = $(this).find('._Map').text();
+							name = kw.validProperty(kw.accent_fold(name));
+							value = kw.accent_fold(value);
+							
+							if (name) {
+								result[name] = value;
+							}
+						});
+						resolve (result);
 					});
-					console.log(options.url);
-					console.log(result);
-					return (result);
 				});
 		},
 		scrap_societe: function(SIRET, callback)
@@ -74,11 +67,11 @@ module.exports = {
 					$('table#etab').find('tr').filter(function(){
 						let name = $(this).children().first().text().trim();
 						let value = $(this).children().last().text().trim();
-						if (possible_properties.indexOf(name) > -1)
+						
+						name = kw.validProperty(name);
+						if (name)
 							result[name] = value;
 					});
-					console.log(SIRET);
-					console.log(result);
 					callback (result);
 				});
 			}

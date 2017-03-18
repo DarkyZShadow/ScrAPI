@@ -44,6 +44,7 @@ $('form').submit(function (event) {
 					var th = document.createElement("th");
 					var td = document.createElement("td");
 
+				    	if (key == "employees") i++;
 					th.innerHTML = key;
 					td.innerHTML = result.data[key];
 					tr.appendChild(th);
@@ -70,6 +71,7 @@ $('form').submit(function (event) {
 				var th = document.createElement("th");
 				var td = document.createElement("td");
 
+			    if (result.missing[i] == "employees") i++;
 				th.innerHTML = result.missing[i];
 				td.innerHTML = wait_icon;
 				th.setAttribute("id", "th-" + result.missing[i]);
@@ -89,11 +91,23 @@ $('form').submit(function (event) {
 			});
 
 			socket.on("disconnect", function(){
-				console.log("Disconnected !");
+			    console.log("Disconnected !");
+			    var waitings = document.getElementsByClassName("fa fa-spinner fa-spin fa-1x fa-fw");
+			    var element = waitings.item(0);
+			    while (element) {
+				element.className = "fa fa-times";
+				element = waitings.item(0);
+			    }
 			});
 			
 			socket.on("google_search", function(datas) {
 				console.log(datas);
+				if (datas) {
+				  for (var i in datas) {
+						var td = document.getElementById('td-' + i);
+						if (td) td.innerHTML = datas[i];
+					}
+				}
 			});
 			
 			socket.on("societe_search", function(datas) {

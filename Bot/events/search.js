@@ -3,6 +3,7 @@ let cheerio = require('cheerio');
 let Promise = require('promise');
 let iconv = require('iconv-lite');
 let scrapper = require('./scrapper.js');
+let kw = require('./keywords.js');
 
 const SOCIETE_URL = 'http://www.societe.com/cgi-bin/search?champs=';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0';
@@ -23,7 +24,9 @@ exports.event = (socket, datas) => {
 	allPromises.push(societe);
 	allPromises.push(societe2);
 	
-	Promise.all(allPromises).then(() => socket.disconnect('end of datas'));
+	Promise.all(allPromises).then(() => { 
+		socket.disconnect('end of datas');
+	});
 }
 
 function to_siren(SIREN)
@@ -47,8 +50,10 @@ function to_siret(SIREN, NIC)
 function promise_google(socket, name)
 {
 	return new Promise(function (resolve, reject) {
-			socket.emit('google_search', scrapper.scrap_google(name));
-			resolve();
+			scrapper.scrap_google(name).then(result => {
+				socket.emit('google_search', result);
+				resolve();
+			});
 	});
 }
 
@@ -76,7 +81,8 @@ function promise_societe(socket, SIREN, name)
 				var name = $(this).children().first().text().trim();
 				var value = $(this).children().last().text().trim();
 				
-				if (scrapper.possible_properties.indexOf(name) > -1)
+				name = kw.validProperty(kw.accent_fold(name));
+				if (name)
 					result[name] = value;
 			});
 			
