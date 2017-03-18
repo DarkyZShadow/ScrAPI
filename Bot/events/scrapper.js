@@ -26,8 +26,7 @@ module.exports = {
 						let result = {
 							"Nom": kw.capitalize(name)
 						};
-						let buf = iconv.decode(new Buffer(html), "ISO-8859-1");
-						let $ = cheerio.load(buf, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
+						let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
 					
 						$('._RBg div').find('div._eFb').filter(function(){
 							let name = $(this).find('._xdb a').text();
