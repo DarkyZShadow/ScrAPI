@@ -23,7 +23,9 @@ module.exports = {
 						if (error)
 							reject(error);
 
-						let result = {};
+						let result = {
+							"Nom": kw.capitalize(name)
+						};
 						let $ = cheerio.load(html, {ignoreWhitespace: true, xmlMode: true, lowerCaseTags: true});
 					
 						$('._RBg div').find('div._eFb').filter(function(){
@@ -66,6 +68,10 @@ module.exports = {
 
 					let buf = iconv.decode(new Buffer(html), "ISO-8859-1");
 					let result = {};
+					if(SIRET && parseInt(SIRET) > 100) {
+						let SIREN = SIRET.substr(0,9);
+						result.SIREN = SIREN;
+					}
 					let $ = cheerio.load(buf, {ignoreWhitespace: true, lowerCaseTags: true});
 
 					$('table#etab').find('tr').filter(function(){

@@ -41,7 +41,7 @@ let every_properties = {
 	Categorie: "categorie",
 	Creation: "dcr",
 	"Capital social": "capital",
-	"SIRET (siege)": "siret",
+	"SIRET": "siret",
 	"Telephone": "Telephone"
 };
 
@@ -78,6 +78,11 @@ let every_properties = {
 const splitAt = index => it => 
 						  [it.slice(0, index), it.slice(index)];
 
+function capitalize(s)
+{
+	return s && s[0].toUpperCase() + s.slice(1);
+}
+
 function company_find(res, query, id) {
 	Model.find(query).exec(function(err,models) {
     if (err) {
@@ -91,21 +96,27 @@ function company_find(res, query, id) {
 			};
 			let name = String(query.nomen_long);
 			if (!models[0]) {
+				if (id.length == 9) {
+					if (isNaN(parseInt(id))) {
+						send.data.Nom = capitalize(id);
+					} else {
+						send.data.SIREN = id;
+					}
+				} else if (id.length == 14 && !isNaN(id))  {
+					send.data.SIRET = id;
+				} else {
+					send.data.Nom = id;
+				}
+
 				for(let i = 0; i < Object.keys(every_properties).length; i++) {
 					let key = Object.keys(every_properties)[i];
-					if (key != "Nom")
+					if (!send.data[key])
 						send.missing.push(key);
-					else
-						send.data.Nom = id;
 				}
 				res.jsonp(send);
 				return;
 			}
 			let object = JSON.parse(JSON.stringify(models[0]));
-			var send = {
-				data: {},
-				missing: []
-			};
 			for(let i = 0; i < Object.keys(every_properties).length; i++) {
 				let key = Object.keys(every_properties)[i];
 				let value = every_properties[key];
@@ -166,7 +177,7 @@ module.exports = {
 					if (data) {
 						Model.findOneAndUpdate({ 'SIREN':data.SIREN, 'NIC':data.NIC }, data, { upsert:true }, function(err, doc) {
 							if (err) return;
-							console.log('[BOT] Found new company informations (Company:' + doc.nomen_long + ')');
+							console.log('[BOT] Found new company informations');
 						});
 					}
 				}

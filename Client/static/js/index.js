@@ -36,7 +36,8 @@ $('form').submit(function (event) {
 			dt.clear().draw();
 
 			table.innerHTML = "";
-			if (result.data && result.data.SIREN) {
+			console.log(result);
+			if (result.data && result.data.Nom) {
 				for (var i = 0; i < Object.keys(result.data).length; i++) {
 					var key = Object.keys(result.data)[i];
 					if (result.data[key] instanceof Object || result.data[key] instanceof Array) continue;
@@ -51,19 +52,21 @@ $('form').submit(function (event) {
 					tr.appendChild(td);
 					table.appendChild(tr);
 				}
-				var obj = Object.keys(result.data.employees);
-				for (var i in obj)
-				{
-					var employee = result.data.employees[i];
-					var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
-					dt.row.add([
-						(employee.post ? employee.post : icon),
-						(employee.fullname ? employee.fullname : icon),
-						(employee.phone ? employee.phone : icon),
-						(employee.address ? employee.address : icon),
-						(employee.linkedin ? employee.linkedin : icon),
-						(employee.mail ? employee.mail : icon)
-					]).draw();
+				if(result.data.employees) {
+					var obj = Object.keys(result.data.employees);
+					for (var i in obj)
+					{
+						var employee = result.data.employees[i];
+						var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
+						dt.row.add([
+							(employee.post ? employee.post : icon),
+							(employee.fullname ? employee.fullname : icon),
+							(employee.phone ? employee.phone : icon),
+							(employee.address ? employee.address : icon),
+							(employee.linkedin ? employee.linkedin : icon),
+							(employee.mail ? employee.mail : icon)
+						]).draw();
+					}
 				}
 			}
 			for (var i = 0; i < result.missing.length; i++) {
