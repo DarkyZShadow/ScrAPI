@@ -2,3 +2,4 @@
 **/log.txt
 **/.idea/
 **/npm-debug.log
+docker_images/database/
