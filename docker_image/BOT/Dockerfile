@@ -6,4 +6,4 @@ WORKDIR /bot
 COPY package.json /bot
 RUN npm install
 COPY . /bot
-RUN DEBUG=nightmare xvfb-run --server-args="-screen 0 1024x768x24" npm start
+CMD DEBUG=nightmare* xvfb-run --server-args="-screen 0 1024x768x24" npm start

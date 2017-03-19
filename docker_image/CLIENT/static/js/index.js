@@ -1,16 +1,16 @@
-const API_HOST = "dockerimage_api_1:3030";
-const BOT_HOST = "dockerimage_bot_1:9999";
+const API_HOST = "172.16.1.198:3030";
+const BOT_HOST = "172.16.1.198:9999";
 
 document.getElementById("table_members").style.display = "none";
 $('form').submit(function (event) {
     var wait_icon = '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>';
     var input = $("#search_input").val().trim();
-    
+
     if (input.length > 0)
 	{
 	    $("#search").removeClass("open");
 	    $("#search").addClass("close");
-	    
+
 	    var object = {
 			"id":input
 	    }
@@ -26,7 +26,7 @@ $('form').submit(function (event) {
 			"processData": false,
 			"data": JSON.stringify(object)
 	    }
-	    
+
 		event.preventDefault();
 	    $.ajax(settings).done(function (result) {
 		document.getElementById("table_members").style.display = "inline-table";
@@ -44,6 +44,7 @@ $('form').submit(function (event) {
 					var th = document.createElement("th");
 					var td = document.createElement("td");
 
+				   	if (key == "undefined") i++;
 				    	if (key == "employees") i++;
 					th.innerHTML = key;
 					td.innerHTML = result.data[key];
@@ -60,9 +61,10 @@ $('form').submit(function (event) {
 						dt.row.add([
 							(employee.post ? employee.post : icon),
 							(employee.fullname ? employee.fullname : icon),
+							(employee.phone ? employee.phone : icon),
+							(employee.address ? employee.address : icon),
 							(employee.linkedin ? employee.linkedin : icon),
-							(employee.mail ? employee.mail : icon),
-							(employee.from ? employee.from : icon),
+							(employee.mail ? employee.mail : icon)
 						]).draw();
 					}
 				}
@@ -76,12 +78,14 @@ $('form').submit(function (event) {
 				th.innerHTML = result.missing[i];
 				td.innerHTML = wait_icon;
 				th.setAttribute("id", "th-" + result.missing[i]);
-				td.setAttribute("id", "td-" + result.missing[i]);
+			    td.setAttribute("id", "td-" + result.missing[i]);
+			    if (result.missing[i]) {
 				tr.appendChild(th);
 				tr.appendChild(td);
 				table.appendChild(tr);
+			    }
 			}
-			
+
 			var socket = io.connect(`http://${BOT_HOST}`, {
 				'sync disconnect on unload': true,
 				'forceNew' : true });
@@ -100,7 +104,7 @@ $('form').submit(function (event) {
 				element = waitings.item(0);
 			    }
 			});
-			
+
 			socket.on("google_search", function(datas) {
 				console.log(datas);
 				if (datas) {
@@ -110,7 +114,7 @@ $('form').submit(function (event) {
 					}
 				}
 			});
-			
+
 			socket.on("societe_search", function(datas) {
 				console.log(datas);
 				if (datas) {
@@ -120,23 +124,6 @@ $('form').submit(function (event) {
 					}
 				}
 
-			});
-
-			socket.on("linkedin_search", function(data) {
-				console.log(data);
-				var obj = Object.keys(data);
-				for (var i in obj)
-				{
-					var employee = data[i];
-					var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
-					dt.row.add([
-						(employee.post ? employee.post : icon),
-						(employee.fullname ? employee.fullname : icon),
-						(employee.linkedin ? employee.linkedin : icon),
-						(employee.mail ? employee.mail : icon),
-						(employee.from ? employee.from : icon),
-					]).draw();
-				}	
 			});
 		}).fail(function (jqXHR, textStatus) {
 			if (jqXHR.status === 404)
