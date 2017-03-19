@@ -29,7 +29,7 @@ body {
     -moz-transform: translate(0px, 0px) scale(1, 1);
 	-o-transform: translate(0px, 0px) scale(1, 1);
 	-ms-transform: translate(0px, 0px) scale(1, 1);
-	transform: translate(0px, 0px) scale(1, 1); 
+	transform: translate(0px, 0px) scale(1, 1);
     opacity: 1;
 }
 
@@ -69,8 +69,8 @@ body {
 }
 
 .table_data {
-    width: 90%;
-    margin: auto;
+  min-width: 100%;
+  margin: auto;
 }
 
 .table_company {
@@ -105,7 +105,7 @@ body {
 }
 
 #table_infos {
-    min-width: 90%;
+    min-width: 100%;
     border-top: none;
     border-bottom: none;
     margin: auto;

@@ -1,5 +1,5 @@
-const API_HOST = "localhost:3030";
-const BOT_HOST = "localhost:9999";
+const API_HOST = "dockerimage_api_1:3030";
+const BOT_HOST = "dockerimage_bot_1:9999";
 
 document.getElementById("table_members").style.display = "none";
 $('form').submit(function (event) {
