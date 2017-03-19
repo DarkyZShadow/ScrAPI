@@ -113,8 +113,7 @@ function promise_societe2(socket, SIRET)
 function promise_email(members)
 {
     return new Promise(function (resolve, reject) {
-	console.log("MEMBERS : " + members);
-	resolve("test affichage membres");
+	resolve(members);
     });
 //    var usermail = $('span.name.actor-name').text().split(' ');
 //    var usermaildot = (usermail[0]) + '.' + (usermail[1]) + '@orange.fr';
