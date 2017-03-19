@@ -47,36 +47,6 @@ let every_properties = {
 	"Url": "url"
 };
 
-/*var newobj = {
-	SIREN:				31351153,
-	NIC:					02145,
-	nomen_long:		"Atos",
-	employees:	[
-		{
-			post:			"PDG",
-			fullname:	"Maria DB",
-			phone:		"0606060606",
-			address:	"99 rue de l'SQL, 78500 Paris",
-			linkedin:	"http://linkedin.com/",
-			mail:			"test@test.sql"
-		},
-		{
-			fullname:	"Steve theval",
-			phone:		"0606060606",
-			address:	"50 rue de l'Arbre, 78500 Paris",
-			linkedin:	"http://linkedin.com/",
-			mail:			"test@test.fr"
-		},
-		{
-			fullname:	"Sean Soulie",
-			phone:		"0606060606",
-			address:	"50 rue de l'Arbre, 78500 Paris",
-			linkedin:	"http://linkedin.com/",
-			mail:			"test@test.fr"
-		}
-	]
-};*/
-
 const splitAt = index => it => 
 						  [it.slice(0, index), it.slice(index)];
 

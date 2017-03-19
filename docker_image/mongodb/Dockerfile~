@@ -1,0 +1,7 @@
+FROM mongo:latest
+MAINTAINER Nicolas Law Yim Wan (lawyim_n@etna-alternance.net
+RUN mkdir /db
+WORKDIR /db
+COPY scrapi.json /db
+RUN mongoimport --db scrapi --collection raw_datas --file /data/db/scrapi.json
+RUN mongod

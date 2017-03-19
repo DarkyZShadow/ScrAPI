@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ScrAPI</title>
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+  </head>
+
+  <body>
+    <div class="container2">
+      <nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+	  <div class="navbar-header">
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	      <span class="sr-only">Toggle navigation</span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand" href="#">ScrAPI searcher</a>
+	  </div>
+	  
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	    <ul class="nav navbar-nav navbar-right">
+	      <li><a href="#search">Rechercher</a></li>
+	    </ul>
+	  </div>
+	</div>
+      </nav>
+    </div>
+    
+    <div id="search" class="open">
+      <form id="search_form">
+	<input autocomplete="off" type="search" id="search_input" placeholder="Nom de compagnie ou un numéro SIRET/SIREN" required=""/>
+	<button type="submit" class="btn btn-primary">Rechercher</button>
+      </form>
+    </div>
+    <div class="table_company">
+      <table id="table_infos">
+      </table>
+    </div>
+    <br><br>
+    <div class="table_data">
+      <table id="table_members" class="display">
+	<thead>
+	  <tr>
+	    <th>Poste</th>
+	    <th>Nom</th>
+	    <th>Téléphone</th>
+	    <th>Adresse</th>
+	    <th>Linkedin</th>
+	    <th>Email</th>
+	  </tr>
+	</thead>
+	<tbody id="table_employees">
+	</tbody>
+      </table>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	<script src="bower_components/socket.io-client/dist/socket.io.min.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

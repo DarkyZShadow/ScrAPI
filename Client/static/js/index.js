@@ -1,7 +1,6 @@
 const API_HOST = "172.16.1.198:3030";
 const BOT_HOST = "172.16.1.198:9999";
 
-
 document.getElementById("table_members").style.display = "none";
 $('form').submit(function (event) {
     var wait_icon = '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>';
