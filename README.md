@@ -8,7 +8,7 @@ There are two routes on the API :
   - '/bot' (POST)
   
 ### /company
-  - POST : -> Used to find informations in Mongo
+  - POST : -> Used to find informations in Mongo and send to Front
   ```javascript
     {
       "id":"SIRET or SIREN or NAME"
