@@ -1,5 +1,5 @@
-const API_HOST = "172.16.1.198:3030";
-const BOT_HOST = "172.16.1.198:9999";
+const API_HOST = "localhost:3030";
+const BOT_HOST = "localhost:9999";
 
 document.getElementById("table_members").style.display = "none";
 $('form').submit(function (event) {

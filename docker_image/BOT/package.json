@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Steve-Nzr/ScrAPI#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
+    "email-existence": "^0.1.5",
     "iconv-lite": "^0.4.15",
     "nightmare": "github:segmentio/nightmare",
     "promise": "^7.1.1",

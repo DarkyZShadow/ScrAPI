@@ -8,4 +8,4 @@
 let mongoose = exports.mongoose = require('mongoose');
 
 var opts = { db: { native_parser: true }}
-const DB_C = exports.mongoose.connection = mongoose.createConnection('mongodb://dockerimage_db_1:27017/scrapi', opts);
+const DB_C = exports.mongoose.connection = mongoose.createConnection('mongodb://localhost:27017/scrapi', opts);

@@ -114,7 +114,7 @@ function promise_linkedin(socket, name)
 {
     return new Promise(function (resolve, reject) {
 	scrapper.scrap_linkedin(name).then(result => {
-	    console.log(result);
+	    console.log("Result " + result);
 	    socket.emit('linkedin_search', result);
 	});
     });
