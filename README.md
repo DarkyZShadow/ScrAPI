@@ -7,14 +7,14 @@ There are two routes on the API :
   - '/company' (POST/PUT)
   - '/bot' (POST)
   
-## /company
-  - POST : -> Used to find informations in Mongo
+### /company
+  - POST : -> Used to find informations in Mongo and send to Front
   ```javascript
     {
       "id":"SIRET or SIREN or NAME"
     }
   ```
-  returns an object with found data (data:), ans missing data (missing:)
+  returns an object with found data (data:), and missing data (missing:)
   
   - PUT : -> Used to insert or update data in Mongo
   ```javascript
@@ -43,7 +43,7 @@ There are two routes on the API :
     }
   ```
   
-## /bot
+### /bot
   - POST : -> Used to start bot in "zombie mode" and fill Mongo
   ```javascript
   [
