@@ -24,20 +24,18 @@ There are two routes on the API :
       nomen_long:   "Scrapi",
       employees:  [
         {
-          post:     "PDG",
-          fullname: "Maria Api",
-          phone:    "0606060606",
-          address:  "99 rue Albert 1er, 75001 Paris",
-          linkedin: "http://linkedin.com/",
-          mail:     "maria.api@scrapi.com"
+			post:     	"PDG",
+          	fullname: 	"Maria Api",
+          	linkedin: 	"http://linkedin.com/",
+          	mail:     	"maria.api@scrapi.com",
+	  		from:		"Paris"
         },
         {
-          post:     "DRH"
-          fullname: "Pierre Api",
-          phone:    "0606060606",
-          address:  "50 avenue Legrand, 75009 Paris",
-          linkedin: "http://linkedin.com/",
-          mail:     "pierre.api@scrapi.com"
+          	post:     	"DRH"
+         	fullname: 	"Pierre Api",
+          	linkedin: 	"http://linkedin.com/",
+          	mail:     	"pierre.api@scrapi.com"
+	  		from:		"Paris"
         }
       ]
     }
