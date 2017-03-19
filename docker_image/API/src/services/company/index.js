@@ -12,39 +12,39 @@ let logger = require('../../middleware/logger.js');
 let	db = require('../../../config/db.js');
 
 let schema = new db.mongoose.Schema({
-	SIREN: Number,
-	NIC: Number,
-	'nomen_long': String,
-	"Adresse": String,
-	'Code postal': String,
-	'Ville': String,
-	'Pays': String,
-	'Service client': String,
-	'employees': Array,
-	'url': String
+	"SIREN"						: Number,
+	"NIC"							: Number,
+	"nomen_long"			: String,
+	"Adresse"					: String,
+	"Code postal"			: String,
+	"Ville"						: String,
+	"Pays"						: String,
+	"Service client"	: String,
+	"employees"				: Array,
+	"url"							: String
 });
 schema.set('collection', 'raw_datas');
 
 let Model = mongoose.model('datas', schema);
 
 let every_properties = {
-	SIREN: "SIREN",
-	NIC: "NIC",
-	Nom: "nomen_long",
-	Adresse: "address",
-	'Code postal': 'Code postal',
-	Ville: 'Ville',
-	Pays: 'Pays',
-	employees: "employees",
-	Type: "libnj",
-	Description: "libape",
-	Taille: "libtef",
-	Categorie: "categorie",
-	Creation: "dcr",
-	"Capital social": "capital",
-	"SIRET": "siret",
-	"Telephone": "Telephone",
-	"Url": "url"
+	"Nom"							:	"nomen_long",
+	"SIRET"						:	"siret",
+	"SIREN"						:	"SIREN",
+	"NIC"							:	"NIC",
+	"Adresse"					:	"address",
+	"Code postal"			:	"Code postal",
+	"Ville"						:	"Ville",
+	"Pays"						:	"Pays",
+	"Type"						:	"libnj",
+	"Description"			:	"libape",
+	"Taille"					:	"libtef",
+	"Categorie"				:	"categorie",
+	"Creation"				:	"dcr",
+	"Capital social"	:	"capital",
+	"Telephone"				:	"Telephone",
+	"Url"							:	"url",
+	"employees"				:	"employees"
 };
 
 const splitAt = index => it => 

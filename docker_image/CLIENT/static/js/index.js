@@ -60,10 +60,9 @@ $('form').submit(function (event) {
 						dt.row.add([
 							(employee.post ? employee.post : icon),
 							(employee.fullname ? employee.fullname : icon),
-							(employee.phone ? employee.phone : icon),
-							(employee.address ? employee.address : icon),
 							(employee.linkedin ? employee.linkedin : icon),
-							(employee.mail ? employee.mail : icon)
+							(employee.mail ? employee.mail : icon),
+							(employee.from ? employee.from : icon),
 						]).draw();
 					}
 				}
