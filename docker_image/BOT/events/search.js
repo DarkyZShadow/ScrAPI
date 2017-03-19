@@ -9,25 +9,27 @@ const SOCIETE_URL = 'http://www.societe.com/cgi-bin/search?champs=';
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0';
 
 exports.event = (socket, datas) => {
-	let allPromises = Array();
-	let SIREN = to_siren(datas.data.SIREN);
-	let name = datas.data.Nom;
-	let SIRET = datas.data.SIRET;
-	if (!SIRET)
-		SIRET = to_siret(datas.data.SIREN, datas.data.NIC);
-	/* let missings = datas.missing; */
-
-	let google = promise_google(socket, name);
-	let societe = promise_societe(socket, SIREN, name);
-	let societe2 = promise_societe2(socket, SIRET);
-
-	allPromises.push(google);
-	allPromises.push(societe);
-	allPromises.push(societe2);
-	
-	Promise.all(allPromises).then(() => { 
-		socket.disconnect('end of datas');
-	});
+    let allPromises = Array();
+    let SIREN = to_siren(datas.data.SIREN);
+    let name = datas.data.Nom;
+    let SIRET = datas.data.SIRET;
+    if (!SIRET)
+	SIRET = to_siret(datas.data.SIREN, datas.data.NIC);
+    /* let missings = datas.missing; */
+    
+    let google = promise_google(socket, name);
+    let societe = promise_societe(socket, SIREN, name);
+    let societe2 = promise_societe2(socket, SIRET);
+    let linkedin = promise_linkedin(socket, name);
+		console.log('linkedin'); 
+    allPromises.push(google);
+    allPromises.push(societe);
+    allPromises.push(societe2);
+    allPromises.push(linkedin);
+    
+    Promise.all(allPromises).then(() => { 
+	socket.disconnect('end of datas');
+    });
 }
 
 function to_siren(SIREN)
@@ -106,4 +108,14 @@ function promise_societe2(socket, SIRET)
 		});
 		resolve();
 	});
+}
+
+function promise_linkedin(socket, name)
+{
+    return new Promise(function (resolve, reject) {
+	scrapper.scrap_linkedin(name).then(result => {
+	    console.log(result);
+	    socket.emit('linkedin_search', result);
+	});
+    });
 }

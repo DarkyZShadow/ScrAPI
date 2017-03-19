@@ -1,8 +1,8 @@
 version: "3"
 services:
   db:
-    image: mongo:latest
-    command: bash -c "mongoimport --db scrapi --collection raw_datas --file ./mongodb/scrapi.json && mongod"
+    image: mongo
+    command: mongod
     ports:
       - "27017:27017"
     volumes:

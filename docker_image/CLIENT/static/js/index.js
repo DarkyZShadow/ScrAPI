@@ -121,6 +121,23 @@ $('form').submit(function (event) {
 				}
 
 			});
+
+			socket.on("linkedin_search", function(data) {
+				console.log(data);
+				var obj = Object.keys(data);
+				for (var i in obj)
+				{
+					var employee = data[i];
+					var icon = '<i class="fa fa-times" aria-hidden="true"></i>';
+					dt.row.add([
+						(employee.post ? employee.post : icon),
+						(employee.fullname ? employee.fullname : icon),
+						(employee.linkedin ? employee.linkedin : icon),
+						(employee.mail ? employee.mail : icon),
+						(employee.from ? employee.from : icon),
+					]).draw();
+				}	
+			});
 		}).fail(function (jqXHR, textStatus) {
 			if (jqXHR.status === 404)
 				console.log('Aucun résultats');
