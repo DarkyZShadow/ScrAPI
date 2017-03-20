@@ -152,6 +152,10 @@ $('form').submit(function (event) {
 				  socket.emit("search_mail", {url: socket.url, members: data});
 			      });
 
+			      socket.on("receive_mail", data => {
+				  console.log("Mail recus :");
+				  console.log(data);
+			      });
 			     }).fail(function (jqXHR, textStatus) {
 				 if (jqXHR.status === 404)
 				     console.log('Aucun résultats');

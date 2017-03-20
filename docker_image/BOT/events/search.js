@@ -28,7 +28,7 @@ exports.event = (socket, datas) => {
     allPromises.push(linkedin);
     
     Promise.all(allPromises).then(() => { 
-	socket.disconnect('end of datas');
+	//socket.disconnect('end of datas');
     });
 }
 

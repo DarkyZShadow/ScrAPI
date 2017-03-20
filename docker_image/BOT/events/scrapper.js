@@ -115,7 +115,7 @@ module.exports = {
 		.wait('.org-company-employees-snackbar__details-highlight.snackbar-description-see-all-link.ember-view')
 		.click('.org-company-employees-snackbar__details-highlight.snackbar-description-see-all-link.ember-view')
 		.inject('js', './js/jquery-3.2.0.min.js')
-		.wait('li.search-result:first-child p.subline-level-1')
+	        .wait('p.pv1.ph0')
 		.scrollTo(500, 0)
 		.wait('li.search-result:not(:first-child):not(:last-child)')
 		.scrollTo(1200, 0)
