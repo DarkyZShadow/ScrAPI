@@ -110,27 +110,12 @@ function promise_societe2(socket, SIRET)
 	});
 }
 
-function promise_email(members)
-{
-    return new Promise(function (resolve, reject) {
-	resolve(members);
-    });
-//    var usermail = $('span.name.actor-name').text().split(' ');
-//    var usermaildot = (usermail[0]) + '.' + (usermail[1]) + '@orange.fr';
-//    console.log("MAIL :" + usermaildot);
-//    mail.check(usermaildot, function (err, res) {
-//	console.log(res);
-//    });
-}
-
 function promise_linkedin(socket, name)
 {
     return new Promise(function (resolve, reject) {
 	scrapper.scrap_linkedin(name).then(result => {
-	    promise_email(result).then(result => {
-		console.log("Result " + result);
-		socket.emit('linkedin_search', result);
-	    });
+	    console.log("Result " + result);
+	    socket.emit('linkedin_search', result);
 	});
     });
 }

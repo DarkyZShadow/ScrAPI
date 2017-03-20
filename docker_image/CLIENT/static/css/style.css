@@ -69,8 +69,21 @@ body {
 }
 
 .table_data {
-  min-width: 90%;
+  min-width: 99%;
+  max-width: 99%;
   margin: auto;
+}
+
+.table_data thead {
+  color: #fcfcfc;
+}
+
+.table_data label {
+  color: #fcfcfc;
+}
+
+.table_data select {
+  color: black;
 }
 
 .table_company {

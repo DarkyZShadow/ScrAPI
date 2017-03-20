@@ -5,12 +5,12 @@ document.getElementById("table_members").style.display = "none";
 $('form').submit(function (event) {
     var wait_icon = '<i class="fa fa-spinner fa-spin fa-1x fa-fw"></i>';
     var input = $("#search_input").val().trim();
-    
+
     if (input.length > 0)
     {
 	$("#search").removeClass("open");
 	$("#search").addClass("close");
-	
+
 	var object = {
 	    "id":input
 	}
@@ -26,14 +26,18 @@ $('form').submit(function (event) {
 	    "processData": false,
 	    "data": JSON.stringify(object)
 	}
-	
+
 	event.preventDefault();
 	$.ajax(settings).done(function (result) {
 	    document.getElementById("table_members").style.display = "inline-table";
 	    var table = document.getElementById('table_infos');
-	    var dt = $('#table_members').DataTable();
+	    var dt = $('#table_members').DataTable( {
+	        "language": {
+		    "emptyTable": wait_icon
+		}
+	    } );
 	    dt.clear().draw();
-	    
+
 	    table.innerHTML = "";
 	    console.log(result);
 	    if (result.data && result.data.Nom) {
@@ -73,7 +77,7 @@ $('form').submit(function (event) {
 		var tr = document.createElement("tr");
 		var th = document.createElement("th");
 		var td = document.createElement("td");
-		
+
 		if (result.missing[i] == "employees") i++;
 		th.innerHTML = result.missing[i];
 		td.innerHTML = wait_icon;
@@ -85,36 +89,40 @@ $('form').submit(function (event) {
 		    table.appendChild(tr);
 		}
 	    }
-	    
+
 	    var socket = io.connect(`http://${BOT_HOST}`, {
 				    'sync disconnect on unload': true,
 				    'forceNew' : true });
-			      
+
 			      socket.on('connect', function() {
 				  console.log('Connected !');
 				  socket.emit('search_missings', result);
 			      });
-			      
+
 			      socket.on("disconnect", function(){
 				  console.log("Disconnected !");
 				  var waitings = document.getElementsByClassName("fa fa-spinner fa-spin fa-1x fa-fw");
+				  var timed = document.getElementsByClassName("dataTables_empty");
 				  var element = waitings.item(0);
 				  while (element) {
 				      element.className = "fa fa-times";
 				      element = waitings.item(0);
 				  }
+				  timed.html('<i class="fa fa-times" aria-hidden="true"></i>');
 			      });
-			      
+
 			      socket.on("google_search", function(datas) {
 				  console.log(datas);
 				  if (datas) {
+				      socket.url = datas.Url;
+				      console.log(socket.url);
 				      for (var i in datas) {
 					  var td = document.getElementById('td-' + i);
 					  if (td) td.innerHTML = datas[i];
 				      }
 				  }
 			      });
-			      
+
 			      socket.on("societe_search", function(datas) {
 				  console.log(datas);
 				  if (datas) {
@@ -123,9 +131,9 @@ $('form').submit(function (event) {
 					  if (td) td.innerHTML = datas[i];
 				      }
 				  }
-				  
+
 			      });
-			      
+
                               socket.on("linkedin_search", function(data) {
 				  console.log(data);
 				  var obj = Object.keys(data);
@@ -141,8 +149,9 @@ $('form').submit(function (event) {
 					  (employee.from ? employee.from : icon),
 				      ]).draw();
 				  }
+				  socket.emit("search_mail", {url: socket.url, members: data});
 			      });
-			      
+
 			     }).fail(function (jqXHR, textStatus) {
 				 if (jqXHR.status === 404)
 				     console.log('Aucun résultats');
