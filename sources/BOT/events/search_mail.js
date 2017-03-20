@@ -3,21 +3,20 @@ let url = require('tldjs');
 let mailcheck = require('email-existence');
 
 exports.event = (socket, data) => {
-    console.log("Data url = " + data.url);
-    let myurl = data.url;
-    if (!myurl.startsWith('http')) {
-	myurl = 'http://' + myurl;
-    }
+	let myurl = data.url;
+
+    if (!myurl.startsWith('http'))
+		myurl = 'http://' + myurl;
     let fullurl = url.getDomain(myurl);
-    console.log("fullurl : " + fullurl);
-    for (let i in data.members) {
-	let name = data.members[i].fullname;
-	let tmp = name.toLowerCase().replace(' ', '.');
-	var adr = tmp + '@' + fullurl;
-	mailcheck.check(adr, function(err,res){
-	    console.log(res);
-	    console.log(adr);
-	    socket.emit(('receive_mail', {name: name, mail: adr}));
-	});
+    for (let i in data.members)
+	{
+		let name = data.members[i].fullname;
+		let tmp = name.toLowerCase().replace(' ', '.');
+		var adr = tmp + '@' + fullurl;
+		
+		mailcheck.check(adr, function(err,res) {
+			console.log(adr);
+			socket.emit(('receive_mail', {name: name, mail: adr}));
+		});
     }
 }

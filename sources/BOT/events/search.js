@@ -15,20 +15,19 @@ exports.event = (socket, datas) => {
     let SIRET = datas.data.SIRET;
     if (!SIRET)
 	SIRET = to_siret(datas.data.SIREN, datas.data.NIC);
-    /* let missings = datas.missing; */
     
     let google = promise_google(socket, name);
     let societe = promise_societe(socket, SIREN, name);
     let societe2 = promise_societe2(socket, SIRET);
     let linkedin = promise_linkedin(socket, name);
-		console.log('linkedin'); 
+	
     allPromises.push(google);
     allPromises.push(societe);
     allPromises.push(societe2);
     allPromises.push(linkedin);
     
     Promise.all(allPromises).then(() => { 
-	//socket.disconnect('end of datas');
+		socket.disconnect('end of datas');
     });
 }
 
@@ -55,7 +54,8 @@ function promise_google(socket, name)
 	return new Promise(function (resolve, reject) {
 		if (!name)
 			resolve();
-		else {
+		else
+		{
 			scrapper.scrap_google(name).then(result => {
 				console.log(result);
 				socket.emit('google_search', result);
@@ -85,7 +85,7 @@ function promise_societe(socket, SIREN, name)
 			var result = {};
 			var $ = cheerio.load(buf, {ignoreWhitespace: true, lowerCaseTags: true});
 
-			$('table#rensjur').find('tr').filter(function(){
+			$('table#rensjur').find('tr').filter(function() {
 				var name = $(this).children().first().text().trim();
 				var value = $(this).children().last().text().trim();
 				
@@ -113,9 +113,9 @@ function promise_societe2(socket, SIRET)
 function promise_linkedin(socket, name)
 {
     return new Promise(function (resolve, reject) {
-	scrapper.scrap_linkedin(name).then(result => {
-	    console.log("Result " + result);
-	    socket.emit('linkedin_search', result);
-	});
+		scrapper.scrap_linkedin(name).then(result => {
+			console.log("Result " + result);
+			socket.emit('linkedin_search', result);
+		});
     });
 }
